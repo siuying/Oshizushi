@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		541D17B818B7BCEA00019CCA /* OSZExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 541D17B718B7BCEA00019CCA /* OSZExpression.m */; };
 		54417F3D18B6F50D0053A9A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F3C18B6F50D0053A9A8 /* Foundation.framework */; };
 		54417F3F18B6F50D0053A9A8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F3E18B6F50D0053A9A8 /* CoreGraphics.framework */; };
 		54417F4118B6F50D0053A9A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F4018B6F50D0053A9A8 /* UIKit.framework */; };
@@ -24,6 +25,9 @@
 		5494CB8118B7B07000FD586E /* OshizushiGrammarSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8018B7B07000FD586E /* OshizushiGrammarSpec.m */; };
 		5494CB8418B7B1C600FD586E /* OshizushiTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8318B7B1C600FD586E /* OshizushiTokeniser.m */; };
 		5494CB8618B7B2BA00FD586E /* OshizushiTokeniserSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8518B7B2BA00FD586E /* OshizushiTokeniserSpec.m */; };
+		5494CB8A18B7B57F00FD586E /* OSZDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8918B7B57F00FD586E /* OSZDirection.m */; };
+		5494CB8D18B7B75500FD586E /* OshizushiParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8C18B7B75500FD586E /* OshizushiParser.m */; };
+		5494CB8F18B7B84E00FD586E /* OshizushiParserSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8E18B7B84E00FD586E /* OshizushiParserSpec.m */; };
 		8F58DD307BA44D78BA85AECD /* libPods-OshizushiTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E373FA3050ED4B0B83CCAE0A /* libPods-OshizushiTests.a */; };
 		B91DCB455A054D5C958C7836 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC91261E3C14C52A3000EDB /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -40,6 +44,8 @@
 
 /* Begin PBXFileReference section */
 		24EFF963DF4241F39C2C5F17 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		541D17B618B7BCEA00019CCA /* OSZExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSZExpression.h; path = Classes/OSZExpression.h; sourceTree = "<group>"; };
+		541D17B718B7BCEA00019CCA /* OSZExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSZExpression.m; path = Classes/OSZExpression.m; sourceTree = "<group>"; };
 		54417F3918B6F50D0053A9A8 /* Oshizushi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oshizushi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54417F3C18B6F50D0053A9A8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		54417F3E18B6F50D0053A9A8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -64,6 +70,11 @@
 		5494CB8218B7B1C600FD586E /* OshizushiTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OshizushiTokeniser.h; path = Classes/OshizushiTokeniser.h; sourceTree = "<group>"; };
 		5494CB8318B7B1C600FD586E /* OshizushiTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OshizushiTokeniser.m; path = Classes/OshizushiTokeniser.m; sourceTree = "<group>"; };
 		5494CB8518B7B2BA00FD586E /* OshizushiTokeniserSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OshizushiTokeniserSpec.m; sourceTree = "<group>"; };
+		5494CB8818B7B57F00FD586E /* OSZDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSZDirection.h; path = Classes/OSZDirection.h; sourceTree = "<group>"; };
+		5494CB8918B7B57F00FD586E /* OSZDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSZDirection.m; path = Classes/OSZDirection.m; sourceTree = "<group>"; };
+		5494CB8B18B7B75500FD586E /* OshizushiParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OshizushiParser.h; path = Classes/OshizushiParser.h; sourceTree = "<group>"; };
+		5494CB8C18B7B75500FD586E /* OshizushiParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OshizushiParser.m; path = Classes/OshizushiParser.m; sourceTree = "<group>"; };
+		5494CB8E18B7B84E00FD586E /* OshizushiParserSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OshizushiParserSpec.m; sourceTree = "<group>"; };
 		671FCFB606FF49D5B01A2B05 /* Pods-OshizushiTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OshizushiTests.xcconfig"; path = "Pods/Pods-OshizushiTests.xcconfig"; sourceTree = "<group>"; };
 		9BC91261E3C14C52A3000EDB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E373FA3050ED4B0B83CCAE0A /* libPods-OshizushiTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OshizushiTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +172,7 @@
 				54417F6518B6F50E0053A9A8 /* Supporting Files */,
 				5494CB8018B7B07000FD586E /* OshizushiGrammarSpec.m */,
 				5494CB8518B7B2BA00FD586E /* OshizushiTokeniserSpec.m */,
+				5494CB8E18B7B84E00FD586E /* OshizushiParserSpec.m */,
 			);
 			path = OshizushiTests;
 			sourceTree = "<group>";
@@ -177,10 +189,13 @@
 		5494CB7818B7AEF800FD586E /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5494CB8718B7B56B00FD586E /* AST */,
 				5494CB7D18B7AF9000FD586E /* OshizushiGrammar.h */,
 				5494CB7E18B7AF9000FD586E /* OshizushiGrammar.m */,
 				5494CB8218B7B1C600FD586E /* OshizushiTokeniser.h */,
 				5494CB8318B7B1C600FD586E /* OshizushiTokeniser.m */,
+				5494CB8B18B7B75500FD586E /* OshizushiParser.h */,
+				5494CB8C18B7B75500FD586E /* OshizushiParser.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -191,6 +206,17 @@
 				5494CB7918B7AF1000FD586E /* Oshizushi.grammar */,
 			);
 			name = Grammar;
+			sourceTree = "<group>";
+		};
+		5494CB8718B7B56B00FD586E /* AST */ = {
+			isa = PBXGroup;
+			children = (
+				5494CB8818B7B57F00FD586E /* OSZDirection.h */,
+				5494CB8918B7B57F00FD586E /* OSZDirection.m */,
+				541D17B618B7BCEA00019CCA /* OSZExpression.h */,
+				541D17B718B7BCEA00019CCA /* OSZExpression.m */,
+			);
+			name = AST;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,10 +384,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5494CB8A18B7B57F00FD586E /* OSZDirection.m in Sources */,
 				5494CB8418B7B1C600FD586E /* OshizushiTokeniser.m in Sources */,
 				54417F4D18B6F50E0053A9A8 /* IGAppDelegate.m in Sources */,
+				5494CB8D18B7B75500FD586E /* OshizushiParser.m in Sources */,
 				54417F4918B6F50E0053A9A8 /* main.m in Sources */,
 				5494CB7F18B7AF9000FD586E /* OshizushiGrammar.m in Sources */,
+				541D17B818B7BCEA00019CCA /* OSZExpression.m in Sources */,
 				54417F5618B6F50E0053A9A8 /* IGViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +399,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5494CB8F18B7B84E00FD586E /* OshizushiParserSpec.m in Sources */,
 				5494CB8618B7B2BA00FD586E /* OshizushiTokeniserSpec.m in Sources */,
 				5494CB8118B7B07000FD586E /* OshizushiGrammarSpec.m in Sources */,
 			);

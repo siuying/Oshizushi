@@ -77,8 +77,7 @@ describe(@"OshizushiTokeniser", ^{
             CPTokenStream* stream = [tokenizer tokenise:@"V:|-[find]-[findField(>=20)]-|"];
             
             NSMutableArray* tokens = [NSMutableArray array];
-            [tokens addObject:[CPIdentifierToken tokenWithIdentifier:@"V"]];
-            [tokens addObject:[CPKeywordToken tokenWithKeyword:@":"]];
+            [tokens addObject:[CPKeywordToken tokenWithKeyword:@"V:"]];
             [tokens addObject:[CPKeywordToken tokenWithKeyword:@"|"]];
             [tokens addObject:[CPKeywordToken tokenWithKeyword:@"-"]];
             [tokens addObject:[CPKeywordToken tokenWithKeyword:@"["]];

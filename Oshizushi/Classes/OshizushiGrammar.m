@@ -33,7 +33,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
             [NSException raise:NSInvalidArgumentException format:@"missing grammar file %@", path];
         }
     }
-    self = [super initWithStart:@"CSSSelectorGroup" backusNaurForm:grammar error:&error];
+    self = [super initWithStart:@"OSZExpression" backusNaurForm:grammar error:&error];
     if (!self) {
         if (error) {
             DDLogError(@"error compile language = %@", error);

@@ -14,7 +14,8 @@
 -(id) init {
     self = [super init];
 
-    [self addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@":"]];
+    [self addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@"V:"]];
+    [self addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@"H:"]];
     [self addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@"|"]];
     [self addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@"-"]];
     [self addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@","]];
