@@ -26,9 +26,9 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
     
     NSString* direction = [[syntaxTree valueForTag:@"direction"] firstObject];
     if (direction) {
-        self.direction = [direction isEqualToString:@"V:"] ? OSZExpressionDirectionVertical : OSZExpressionDirectionHorizontal;
+        self.orientation = [direction isEqualToString:@"V:"] ? OSZExpressionOrientationVertical : OSZExpressionOrientationHorizontal;
     } else {
-        self.direction = OSZExpressionDirectionHorizontal;
+        self.orientation = OSZExpressionOrientationHorizontal;
     }
 
     _views = [NSMutableArray array];

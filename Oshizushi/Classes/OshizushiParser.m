@@ -50,6 +50,15 @@
             CPKeywordToken* token = (CPKeywordToken *)[children objectAtIndex:0];
             return [token keyword];
         }
+        case 4:
+        case 5:
+        {
+            if ([children count] == 1) {
+                return @"";
+            } else {
+                
+            }
+        }
             break;
 
         default:

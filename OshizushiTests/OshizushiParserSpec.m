@@ -24,30 +24,30 @@ describe(@"OshizushiParser", ^{
     });
 
     context(@"-parseVisualFormatLanguage:error:", ^{
-        context(@"for input string with direction", ^{
+        context(@"input string with direction", ^{
             it(@"should set default direction", ^{
                 NSError* error = nil;
                 OSZExpression* expression = [parser parseVisualFormatLanguage:@"[View]" error:&error];
                 [[expression shouldNot] beNil];
                 [[error should] beNil];
-                [[theValue(expression.direction) should] equal:theValue(OSZExpressionDirectionHorizontal)];
+                [[theValue(expression.orientation) should] equal:theValue(OSZExpressionOrientationHorizontal)];
             });
 
-            it(@"should parse V: and H: and set direction", ^{
+            it(@"should parse V: and H: and set orientation", ^{
                 NSError* error = nil;
                 OSZExpression* expression = [parser parseVisualFormatLanguage:@"V:[View]" error:&error];
                 [[expression shouldNot] beNil];
                 [[error should] beNil];
-                [[theValue(expression.direction) should] equal:theValue(OSZExpressionDirectionVertical)];
+                [[theValue(expression.orientation) should] equal:theValue(OSZExpressionOrientationVertical)];
 
                 expression = [parser parseVisualFormatLanguage:@"H:[View]" error:&error];
                 [[expression shouldNot] beNil];
                 [[error should] beNil];
-                [[theValue(expression.direction) should] equal:theValue(OSZExpressionDirectionHorizontal)];
+                [[theValue(expression.orientation) should] equal:theValue(OSZExpressionOrientationHorizontal)];
             });
         });
 
-        context(@"for input string with view name", ^{
+        context(@"input string with view name", ^{
             it(@"should parse [View] and set view name", ^{
                 NSError* error = nil;
                 OSZExpression* expression = [parser parseVisualFormatLanguage:@"V:[View]" error:&error];
@@ -59,7 +59,27 @@ describe(@"OshizushiParser", ^{
             });
         });
 
-        context(@"for input string with edge", ^{
+        context(@"input string with edge", ^{
+            it(@"should parse H:|-[View]-| and pin to leading and trailing edge", ^{
+                NSError* error = nil;
+                expression = [parser parseVisualFormatLanguage:@"H:|-[View]-|" error:&error];
+                [[expression shouldNot] beNil];
+                
+                [[theValue(expression.pinToLeadingEdge) should] equal:theValue(YES)];
+                [[theValue(expression.pinToTrailingEdge) should] equal:theValue(YES)];
+            });
+            
+            it(@"should parse H:|-[View] and only pin to leading edge", ^{
+                NSError* error = nil;
+                expression = [parser parseVisualFormatLanguage:@"H:|-[View]" error:&error];
+                [[expression shouldNot] beNil];
+                
+                [[theValue(expression.pinToLeadingEdge) should] equal:theValue(YES)];
+                [[theValue(expression.pinToTrailingEdge) should] equal:theValue(NO)];
+            });
+        });
+        
+        context(@"input string with connection", ^{
             it(@"should parse H:|-[View]-| and pin to leading and trailing edge", ^{
                 NSError* error = nil;
                 expression = [parser parseVisualFormatLanguage:@"H:|-[View]-|" error:&error];
