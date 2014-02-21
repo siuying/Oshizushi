@@ -26,7 +26,6 @@
 		5494CB8118B7B07000FD586E /* OshizushiGrammarSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8018B7B07000FD586E /* OshizushiGrammarSpec.m */; };
 		5494CB8418B7B1C600FD586E /* OshizushiTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8318B7B1C600FD586E /* OshizushiTokeniser.m */; };
 		5494CB8618B7B2BA00FD586E /* OshizushiTokeniserSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8518B7B2BA00FD586E /* OshizushiTokeniserSpec.m */; };
-		5494CB8A18B7B57F00FD586E /* OSZDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8918B7B57F00FD586E /* OSZDirection.m */; };
 		5494CB8D18B7B75500FD586E /* OshizushiParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8C18B7B75500FD586E /* OshizushiParser.m */; };
 		5494CB8F18B7B84E00FD586E /* OshizushiParserSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8E18B7B84E00FD586E /* OshizushiParserSpec.m */; };
 		8F58DD307BA44D78BA85AECD /* libPods-OshizushiTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E373FA3050ED4B0B83CCAE0A /* libPods-OshizushiTests.a */; };
@@ -73,8 +72,6 @@
 		5494CB8218B7B1C600FD586E /* OshizushiTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OshizushiTokeniser.h; path = Classes/OshizushiTokeniser.h; sourceTree = "<group>"; };
 		5494CB8318B7B1C600FD586E /* OshizushiTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OshizushiTokeniser.m; path = Classes/OshizushiTokeniser.m; sourceTree = "<group>"; };
 		5494CB8518B7B2BA00FD586E /* OshizushiTokeniserSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OshizushiTokeniserSpec.m; sourceTree = "<group>"; };
-		5494CB8818B7B57F00FD586E /* OSZDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSZDirection.h; path = Classes/OSZDirection.h; sourceTree = "<group>"; };
-		5494CB8918B7B57F00FD586E /* OSZDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSZDirection.m; path = Classes/OSZDirection.m; sourceTree = "<group>"; };
 		5494CB8B18B7B75500FD586E /* OshizushiParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OshizushiParser.h; path = Classes/OshizushiParser.h; sourceTree = "<group>"; };
 		5494CB8C18B7B75500FD586E /* OshizushiParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OshizushiParser.m; path = Classes/OshizushiParser.m; sourceTree = "<group>"; };
 		5494CB8E18B7B84E00FD586E /* OshizushiParserSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OshizushiParserSpec.m; sourceTree = "<group>"; };
@@ -214,8 +211,6 @@
 		5494CB8718B7B56B00FD586E /* AST */ = {
 			isa = PBXGroup;
 			children = (
-				5494CB8818B7B57F00FD586E /* OSZDirection.h */,
-				5494CB8918B7B57F00FD586E /* OSZDirection.m */,
 				541D17B618B7BCEA00019CCA /* OSZExpression.h */,
 				541D17B718B7BCEA00019CCA /* OSZExpression.m */,
 				541D17B918B7BDEC00019CCA /* OSZView.h */,
@@ -389,7 +384,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5494CB8A18B7B57F00FD586E /* OSZDirection.m in Sources */,
 				5494CB8418B7B1C600FD586E /* OshizushiTokeniser.m in Sources */,
 				54417F4D18B6F50E0053A9A8 /* IGAppDelegate.m in Sources */,
 				541D17BB18B7BDEC00019CCA /* OSZView.m in Sources */,

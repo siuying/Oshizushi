@@ -10,7 +10,6 @@
 #import "OshizushiParser.h"
 #import "CoreParse.h"
 
-#import "OSZDirection.h"
 #import "OSZExpression.h"
 #import "OSZView.h"
 
@@ -26,17 +25,25 @@ describe(@"OshizushiParser", ^{
 
     context(@"-parseVisualFormatLanguage:error:", ^{
         context(@"for input string with direction", ^{
-            it(@"should parse V: and set direction", ^{
+            it(@"should set default direction", ^{
+                NSError* error = nil;
+                OSZExpression* expression = [parser parseVisualFormatLanguage:@"[View]" error:&error];
+                [[expression shouldNot] beNil];
+                [[error should] beNil];
+                [[theValue(expression.direction) should] equal:theValue(OSZExpressionDirectionHorizontal)];
+            });
+
+            it(@"should parse V: and H: and set direction", ^{
                 NSError* error = nil;
                 OSZExpression* expression = [parser parseVisualFormatLanguage:@"V:[View]" error:&error];
                 [[expression shouldNot] beNil];
                 [[error should] beNil];
-                [[theValue(expression.direction.value) should] equal:theValue(OSZDirectionVertical)];
-                
+                [[theValue(expression.direction) should] equal:theValue(OSZExpressionDirectionVertical)];
+
                 expression = [parser parseVisualFormatLanguage:@"H:[View]" error:&error];
                 [[expression shouldNot] beNil];
                 [[error should] beNil];
-                [[theValue(expression.direction.value) should] equal:theValue(OSZDirectionHorizontal)];
+                [[theValue(expression.direction) should] equal:theValue(OSZExpressionDirectionHorizontal)];
             });
         });
 

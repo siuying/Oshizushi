@@ -23,7 +23,14 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
 - (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree {
     self = [super init];
-    self.direction = [syntaxTree valueForTag:@"direction"];
+    
+    NSString* direction = [[syntaxTree valueForTag:@"direction"] firstObject];
+    if (direction) {
+        self.direction = [direction isEqualToString:@"V:"] ? OSZExpressionDirectionVertical : OSZExpressionDirectionHorizontal;
+    } else {
+        self.direction = OSZExpressionDirectionHorizontal;
+    }
+
     _views = [NSMutableArray array];
 
     OSZView* view = [[syntaxTree children] objectAtIndex:2];

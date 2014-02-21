@@ -9,11 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "CPParser.h"
 
+typedef NS_ENUM(NSUInteger, OSZExpressionDirection) {
+    OSZExpressionDirectionVertical,
+    OSZExpressionDirectionHorizontal
+};
+
 @class OSZDirection;
 
 @interface OSZExpression : NSObject <CPParseResult>
 
-@property (nonatomic, strong) OSZDirection* direction;
+@property (nonatomic, assign) OSZExpressionDirection direction;
 
 @property (nonatomic, readonly) NSMutableArray* views;
 

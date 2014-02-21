@@ -44,6 +44,14 @@
             return (CPKeywordToken *)[children objectAtIndex:0];
         }
             break;
+        case 2:
+        case 3:
+        {
+            CPKeywordToken* token = (CPKeywordToken *)[children objectAtIndex:0];
+            return [token keyword];
+        }
+            break;
+
         default:
             break;
     }
