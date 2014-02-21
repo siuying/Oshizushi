@@ -10,15 +10,18 @@ PODS:
   - Kiwi/XCTest (2.2.3):
     - Kiwi/ARC
     - Kiwi/NonARC
+  - ObjectiveSugar (1.1.0)
 
 DEPENDENCIES:
   - CocoaLumberjack
   - CoreParse@siuying
   - Kiwi/XCTest
+  - ObjectiveSugar
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
   CoreParse@siuying: ba41a5dce2b739e59dc6baf43e85186f14b50c91
   Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
+  ObjectiveSugar: fed588577bcf9733546aeaa089de444e4bab9a52
 
 COCOAPODS: 0.29.0

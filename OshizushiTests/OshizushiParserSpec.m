@@ -18,14 +18,15 @@ SPEC_BEGIN(OshizushiParserSpec)
 
 describe(@"OshizushiParser", ^{
     __block OshizushiParser* parser;
-    
+    __block OSZExpression* expression;
+
     beforeEach(^{
         parser = [[OshizushiParser alloc] init];
     });
 
     context(@"-parseVisualFormatLanguage:error:", ^{
-        context(@"for input string with V: or H:", ^{
-            it(@"should parse direction", ^{
+        context(@"for input string with direction", ^{
+            it(@"should parse V: and set direction", ^{
                 NSError* error = nil;
                 OSZExpression* expression = [parser parseVisualFormatLanguage:@"V:[View]" error:&error];
                 [[expression shouldNot] beNil];
@@ -38,9 +39,9 @@ describe(@"OshizushiParser", ^{
                 [[theValue(expression.direction.value) should] equal:theValue(OSZDirectionHorizontal)];
             });
         });
-        
-        context(@"for input string [View]", ^{
-            it(@"should parse view", ^{
+
+        context(@"for input string with view name", ^{
+            it(@"should parse [View] and set view name", ^{
                 NSError* error = nil;
                 OSZExpression* expression = [parser parseVisualFormatLanguage:@"V:[View]" error:&error];
                 [[expression shouldNot] beNil];
@@ -48,6 +49,26 @@ describe(@"OshizushiParser", ^{
                 
                 OSZView* view = [[expression views] firstObject];
                 [[view.name should] equal:@"View"];
+            });
+        });
+
+        context(@"for input string with edge", ^{
+            it(@"should parse H:|-[View]-| and pin to leading and trailing edge", ^{
+                NSError* error = nil;
+                expression = [parser parseVisualFormatLanguage:@"H:|-[View]-|" error:&error];
+                [[expression shouldNot] beNil];
+                
+                [[theValue(expression.pinToLeadingEdge) should] equal:theValue(YES)];
+                [[theValue(expression.pinToTrailingEdge) should] equal:theValue(YES)];
+            });
+            
+            it(@"should parse H:|-[View] and only pin to leading edge", ^{
+                NSError* error = nil;
+                expression = [parser parseVisualFormatLanguage:@"H:|-[View]" error:&error];
+                [[expression shouldNot] beNil];
+                
+                [[theValue(expression.pinToLeadingEdge) should] equal:theValue(YES)];
+                [[theValue(expression.pinToTrailingEdge) should] equal:theValue(NO)];
             });
         });
     });

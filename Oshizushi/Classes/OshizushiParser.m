@@ -23,6 +23,7 @@
     self = [super init];
     self.tokenizer = [[OshizushiTokeniser alloc] init];
     self.parser = [[CPLALR1Parser alloc] initWithGrammar:[[OshizushiGrammar alloc] init]];
+    self.parser.delegate = self;
     return self;
 }
 
@@ -30,6 +31,23 @@
 {
     CPTokenStream* stream = [self.tokenizer tokenise:vfl];
     return [self.parser parse:stream];
+}
+
+#pragma mark - 
+
+- (id)parser:(CPParser *)parser didProduceSyntaxTree:(CPSyntaxTree *)syntaxTree
+{
+    NSArray *children = [syntaxTree children];
+    switch ([[syntaxTree rule] tag]) {
+        case 1:
+        {
+            return (CPKeywordToken *)[children objectAtIndex:0];
+        }
+            break;
+        default:
+            break;
+    }
+    return syntaxTree;
 }
 
 @end

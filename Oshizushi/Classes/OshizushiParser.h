@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CPParser.h"
 
-@interface OshizushiParser : NSObject
+@interface OshizushiParser : NSObject <CPParserDelegate>
 
 - (instancetype) init;
 
