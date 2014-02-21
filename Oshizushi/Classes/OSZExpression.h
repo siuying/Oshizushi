@@ -14,5 +14,6 @@
 @interface OSZExpression : NSObject <CPParseResult>
 
 @property (nonatomic, strong) OSZDirection* direction;
+@property (nonatomic, readonly) NSMutableArray* views;
 
 @end

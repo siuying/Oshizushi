@@ -32,7 +32,11 @@
     [self addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@"<"]];
     
     [self addTokenRecogniser:[CPIdentifierRecogniser identifierRecogniser]];
-    [self addTokenRecogniser:[CPNumberRecogniser numberRecogniser]];
+    
+    CPNumberRecogniser *number = [CPNumberRecogniser numberRecogniser];
+    number.recognisesFloats = NO;
+    number.recognisesInts = NO;
+    [self addTokenRecogniser:number];
     [self addTokenRecogniser:[CPWhiteSpaceRecogniser whiteSpaceRecogniser]];
     
     return self;

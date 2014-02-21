@@ -1,6 +1,6 @@
-OSZExpression    ::= direction@<OSZDirection>;
 OSZExpression    ::= direction@<OSZDirection> (<OSZEdge> <OSZPadding>?)? <OSZView> (<OSZPadding>? <OSZEdge>)?;
-OSZView          ::= '[' 'Keyword' ']';
+OSZViewSet       ::=  <OSZPadding>? <OSZView>;
+OSZView          ::= '[' name@'Identifier' ']';
 OSZPadding       ::= '-' | '-' 'Number' '-';
 OSZEdge          ::= '|';
 OSZDirection     ::= v@'V:' | h@'H:' ;

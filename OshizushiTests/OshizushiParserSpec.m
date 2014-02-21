@@ -12,6 +12,7 @@
 
 #import "OSZDirection.h"
 #import "OSZExpression.h"
+#import "OSZView.h"
 
 SPEC_BEGIN(OshizushiParserSpec)
 
@@ -23,18 +24,30 @@ describe(@"OshizushiParser", ^{
     });
 
     context(@"-parseVisualFormatLanguage:error:", ^{
-        context(@"parse V: and H:", ^{
+        context(@"for input string with V: or H:", ^{
             it(@"should parse direction", ^{
                 NSError* error = nil;
-                OSZExpression* expression = [parser parseVisualFormatLanguage:@"V:" error:&error];
+                OSZExpression* expression = [parser parseVisualFormatLanguage:@"V:[View]" error:&error];
                 [[expression shouldNot] beNil];
                 [[error should] beNil];
                 [[theValue(expression.direction.value) should] equal:theValue(OSZDirectionVertical)];
                 
-                expression = [parser parseVisualFormatLanguage:@"H:" error:&error];
+                expression = [parser parseVisualFormatLanguage:@"H:[View]" error:&error];
                 [[expression shouldNot] beNil];
                 [[error should] beNil];
                 [[theValue(expression.direction.value) should] equal:theValue(OSZDirectionHorizontal)];
+            });
+        });
+        
+        context(@"for input string [View]", ^{
+            it(@"should parse view", ^{
+                NSError* error = nil;
+                OSZExpression* expression = [parser parseVisualFormatLanguage:@"V:[View]" error:&error];
+                [[expression shouldNot] beNil];
+                [[error should] beNil];
+                
+                OSZView* view = [[expression views] firstObject];
+                [[view.name should] equal:@"View"];
             });
         });
     });

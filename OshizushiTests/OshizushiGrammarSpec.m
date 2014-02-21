@@ -16,25 +16,14 @@ SPEC_BEGIN(OshizushiGrammarSpec)
 
 describe(@"OshizushiGrammar", ^{
     __block OshizushiGrammar* grammar;
-    __block OshizushiTokeniser* tokenizer;
-    __block CPLALR1Parser* parser;
     
     beforeEach(^{
-        tokenizer = [[OshizushiTokeniser alloc] init];
         grammar = [[OshizushiGrammar alloc] init];
-        parser = [[CPLALR1Parser alloc] initWithGrammar:grammar];
-
     });
 
     context(@"-init", ^{
         it(@"should load a grammar", ^{
             [[grammar shouldNot] beNil];
-        });
-    });
-    
-    context(@"OSZDirection", ^{
-        it(@"should parse OSZDirection", ^{
-
         });
     });
 });
