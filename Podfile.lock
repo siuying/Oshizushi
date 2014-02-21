@@ -1,0 +1,17 @@
+PODS:
+  - CoreParse@siuying (1.1.0.20140123)
+  - Kiwi/ARC (2.2.3)
+  - Kiwi/NonARC (2.2.3)
+  - Kiwi/XCTest (2.2.3):
+    - Kiwi/ARC
+    - Kiwi/NonARC
+
+DEPENDENCIES:
+  - CoreParse@siuying
+  - Kiwi/XCTest
+
+SPEC CHECKSUMS:
+  CoreParse@siuying: ba41a5dce2b739e59dc6baf43e85186f14b50c91
+  Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
+
+COCOAPODS: 0.29.0

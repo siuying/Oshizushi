@@ -1,0 +1,5 @@
+VFLExpression    ::= <VFLDirection> (<VFLEdge> <VFLPadding>?)? <VFLView> (<VFLPadding>? <VFLEdge>)?;
+VFLView          ::= '[' 'Keyword' ']';
+VFLPadding       ::= '-' | '-' 'Number' '-';
+VFLEdge          ::= '|';
+VFLDirection     ::= ('V' | 'H') ':';
