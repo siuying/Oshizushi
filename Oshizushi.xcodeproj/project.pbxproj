@@ -22,6 +22,8 @@
 		5494CB7A18B7AF1000FD586E /* Oshizushi.grammar in Resources */ = {isa = PBXBuildFile; fileRef = 5494CB7918B7AF1000FD586E /* Oshizushi.grammar */; };
 		5494CB7F18B7AF9000FD586E /* OshizushiGrammar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB7E18B7AF9000FD586E /* OshizushiGrammar.m */; };
 		5494CB8118B7B07000FD586E /* OshizushiGrammarSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8018B7B07000FD586E /* OshizushiGrammarSpec.m */; };
+		5494CB8418B7B1C600FD586E /* OshizushiTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8318B7B1C600FD586E /* OshizushiTokeniser.m */; };
+		5494CB8618B7B2BA00FD586E /* OshizushiTokeniserSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8518B7B2BA00FD586E /* OshizushiTokeniserSpec.m */; };
 		8F58DD307BA44D78BA85AECD /* libPods-OshizushiTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E373FA3050ED4B0B83CCAE0A /* libPods-OshizushiTests.a */; };
 		B91DCB455A054D5C958C7836 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC91261E3C14C52A3000EDB /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -59,6 +61,9 @@
 		5494CB7D18B7AF9000FD586E /* OshizushiGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OshizushiGrammar.h; path = Classes/OshizushiGrammar.h; sourceTree = "<group>"; };
 		5494CB7E18B7AF9000FD586E /* OshizushiGrammar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OshizushiGrammar.m; path = Classes/OshizushiGrammar.m; sourceTree = "<group>"; };
 		5494CB8018B7B07000FD586E /* OshizushiGrammarSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OshizushiGrammarSpec.m; sourceTree = "<group>"; };
+		5494CB8218B7B1C600FD586E /* OshizushiTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OshizushiTokeniser.h; path = Classes/OshizushiTokeniser.h; sourceTree = "<group>"; };
+		5494CB8318B7B1C600FD586E /* OshizushiTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OshizushiTokeniser.m; path = Classes/OshizushiTokeniser.m; sourceTree = "<group>"; };
+		5494CB8518B7B2BA00FD586E /* OshizushiTokeniserSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OshizushiTokeniserSpec.m; sourceTree = "<group>"; };
 		671FCFB606FF49D5B01A2B05 /* Pods-OshizushiTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OshizushiTests.xcconfig"; path = "Pods/Pods-OshizushiTests.xcconfig"; sourceTree = "<group>"; };
 		9BC91261E3C14C52A3000EDB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E373FA3050ED4B0B83CCAE0A /* libPods-OshizushiTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OshizushiTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,6 +160,7 @@
 			children = (
 				54417F6518B6F50E0053A9A8 /* Supporting Files */,
 				5494CB8018B7B07000FD586E /* OshizushiGrammarSpec.m */,
+				5494CB8518B7B2BA00FD586E /* OshizushiTokeniserSpec.m */,
 			);
 			path = OshizushiTests;
 			sourceTree = "<group>";
@@ -173,6 +179,8 @@
 			children = (
 				5494CB7D18B7AF9000FD586E /* OshizushiGrammar.h */,
 				5494CB7E18B7AF9000FD586E /* OshizushiGrammar.m */,
+				5494CB8218B7B1C600FD586E /* OshizushiTokeniser.h */,
+				5494CB8318B7B1C600FD586E /* OshizushiTokeniser.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -350,6 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5494CB8418B7B1C600FD586E /* OshizushiTokeniser.m in Sources */,
 				54417F4D18B6F50E0053A9A8 /* IGAppDelegate.m in Sources */,
 				54417F4918B6F50E0053A9A8 /* main.m in Sources */,
 				5494CB7F18B7AF9000FD586E /* OshizushiGrammar.m in Sources */,
@@ -361,6 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5494CB8618B7B2BA00FD586E /* OshizushiTokeniserSpec.m in Sources */,
 				5494CB8118B7B07000FD586E /* OshizushiGrammarSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
