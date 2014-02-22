@@ -13,6 +13,9 @@
 #import "OSZExpression.h"
 #import "OSZView.h"
 
+#import "DDLog.h"
+#import "DDTTYLogger.h"
+
 SPEC_BEGIN(OshizushiParserSpec)
 
 describe(@"OshizushiParser", ^{
@@ -21,6 +24,12 @@ describe(@"OshizushiParser", ^{
 
     beforeEach(^{
         parser = [[OshizushiParser alloc] init];
+        [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    });
+    
+    afterEach(^{
+        [DDLog flushLog];
+        [DDLog removeAllLoggers];
     });
 
     context(@"-parseVisualFormatLanguage:error:", ^{

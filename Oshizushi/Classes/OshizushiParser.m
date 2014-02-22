@@ -11,8 +11,13 @@
 #import "OshizushiGrammar.h"
 #import "CoreParse.h"
 
+#define LOG_LEVEL_DEF oshiLibLogLevel
+#import "DDLog.h"
+static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
+
+
 @interface OshizushiParser()
-@property (nonatomic, strong) CPLALR1Parser *parser;
+@property (nonatomic, strong) CPParser *parser;
 @property (nonatomic, strong) OshizushiTokeniser *tokenizer;
 @end
 
@@ -50,21 +55,15 @@
             CPKeywordToken* token = (CPKeywordToken *)[children objectAtIndex:0];
             return [token keyword];
         }
-        case 4:
-        case 5:
-        {
-            if ([children count] == 1) {
-                return @"";
-            } else {
-                
-            }
-        }
-            break;
-
         default:
             break;
     }
     return syntaxTree;
+}
+
+- (CPRecoveryAction *)parser:(CPParser *)parser didEncounterErrorOnInput:(CPTokenStream *)inputStream expecting:(NSSet *)acceptableTokens {
+    DDLogError(@"error parsing: %@, acceptable tokens: %@", inputStream, acceptableTokens);
+    return [CPRecoveryAction recoveryActionStop];
 }
 
 @end

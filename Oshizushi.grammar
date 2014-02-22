@@ -1,8 +1,11 @@
-OSZExpression    ::= orientation@<orientation>? leading@(<superview> <OSZConnection>?)? <OSZView> trailing@(<OSZConnection>? <superview>)?;
-OSZViewSet       ::=  <OSZConnection>? <OSZView>;
-OSZView          ::= '[' name@'Identifier' ']';
-OSZConnection    ::= '-' 'Number' '-';
-OSZConnection    ::= '-';
-3 orientation    ::= 'V:';
-2 orientation    ::= 'H:';
-1 superview      ::= '|';
+    OSZExpression    ::=    orientation@<orientation>?
+                            leading@(<superview> <OSZConnection>?)?
+                            <OSZView>
+                            trailing@(<OSZConnection>? <superview>)?;
+    OSZViewSet       ::=    <OSZView> | <OSZView> (<OSZConnection> <OSZView>)+;
+    OSZView          ::=    '[' name@'Identifier' ']';
+    OSZConnection    ::=    '-' 'Number' '-';
+    OSZConnection    ::=    '-';
+3   orientation      ::=    'V:';
+2   orientation      ::=    'H:';
+1   superview        ::=    '|';
