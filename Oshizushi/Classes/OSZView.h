@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OSZElement.h"
 
 @class OSZConnection;
 @class OSZPredicate;
 
-@interface OSZView : NSObject
+@interface OSZView : OSZElement
 
 @property (nonatomic, strong) NSString* name;
 

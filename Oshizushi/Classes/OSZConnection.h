@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OSZElement.h"
 
-@interface OSZConnection : NSObject
+@interface OSZConnection : OSZElement
 
 /**
  * The value of the connection, or NSNotFound if unset.

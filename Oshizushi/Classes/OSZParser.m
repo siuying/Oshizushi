@@ -49,7 +49,9 @@ static NSUInteger   OshViewRxViewPredicateGroup = 3;
     NSMutableString* workingInput = [input mutableCopy];
     
     [self processOrientationWithString:workingInput withExpression:expression];
+
     [self processLeadingSuperviewWithString:workingInput withExpression:expression];
+
     [self processFirstViewWithString:workingInput withExpression:expression];
 
     while([self processConnectionAndViewWithString:workingInput withExpression:expression]) {}

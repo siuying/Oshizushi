@@ -14,6 +14,7 @@
 		541D17C418B8B8B800019CCA /* OSZPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = 541D17C318B8B8B800019CCA /* OSZPredicate.m */; };
 		541D17C618B8B9AA00019CCA /* OSZPredicateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 541D17C518B8B9AA00019CCA /* OSZPredicateSpec.m */; };
 		541D17C818B8C03400019CCA /* OSZLayouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 541D17C718B8C03400019CCA /* OSZLayouterSpec.m */; };
+		541D17CB18B8F10500019CCA /* OSZElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 541D17CA18B8F10500019CCA /* OSZElement.m */; };
 		54417F3D18B6F50D0053A9A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F3C18B6F50D0053A9A8 /* Foundation.framework */; };
 		54417F3F18B6F50D0053A9A8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F3E18B6F50D0053A9A8 /* CoreGraphics.framework */; };
 		54417F4118B6F50D0053A9A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F4018B6F50D0053A9A8 /* UIKit.framework */; };
@@ -56,6 +57,8 @@
 		541D17C318B8B8B800019CCA /* OSZPredicate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSZPredicate.m; path = Classes/OSZPredicate.m; sourceTree = "<group>"; };
 		541D17C518B8B9AA00019CCA /* OSZPredicateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSZPredicateSpec.m; sourceTree = "<group>"; };
 		541D17C718B8C03400019CCA /* OSZLayouterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSZLayouterSpec.m; sourceTree = "<group>"; };
+		541D17C918B8F10500019CCA /* OSZElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSZElement.h; path = Classes/OSZElement.h; sourceTree = "<group>"; };
+		541D17CA18B8F10500019CCA /* OSZElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSZElement.m; path = Classes/OSZElement.m; sourceTree = "<group>"; };
 		54417F3918B6F50D0053A9A8 /* Oshizushi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oshizushi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54417F3C18B6F50D0053A9A8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		54417F3E18B6F50D0053A9A8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -203,6 +206,8 @@
 			children = (
 				541D17B618B7BCEA00019CCA /* OSZExpression.h */,
 				541D17B718B7BCEA00019CCA /* OSZExpression.m */,
+				541D17C918B8F10500019CCA /* OSZElement.h */,
+				541D17CA18B8F10500019CCA /* OSZElement.m */,
 				541D17B918B7BDEC00019CCA /* OSZView.h */,
 				541D17BA18B7BDEC00019CCA /* OSZView.m */,
 				541D17C218B8B8B800019CCA /* OSZPredicate.h */,
@@ -384,6 +389,7 @@
 				54417F4918B6F50E0053A9A8 /* main.m in Sources */,
 				541D17B818B7BCEA00019CCA /* OSZExpression.m in Sources */,
 				541D17C418B8B8B800019CCA /* OSZPredicate.m in Sources */,
+				541D17CB18B8F10500019CCA /* OSZElement.m in Sources */,
 				541D17BE18B7CEA700019CCA /* OSZConnection.m in Sources */,
 				54417F5618B6F50E0053A9A8 /* IGViewController.m in Sources */,
 			);
