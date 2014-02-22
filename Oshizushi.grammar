@@ -1,8 +1,7 @@
     OSZExpression    ::=    orientation@<orientation>?
                             leading@(<superview> <OSZConnection>?)?
-                            <OSZView>
+                            firstView@<OSZView>
                             trailing@(<OSZConnection>? <superview>)?;
-    OSZViewSet       ::=    <OSZView> | <OSZView> (<OSZConnection> <OSZView>)+;
     OSZView          ::=    '[' name@'Identifier' ']';
     OSZConnection    ::=    '-' 'Number' '-';
     OSZConnection    ::=    '-';

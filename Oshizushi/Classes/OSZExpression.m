@@ -34,7 +34,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
     _views = [NSMutableArray array];
 
-    OSZView* view = [[syntaxTree children] objectAtIndex:2];
+    OSZView* view = [syntaxTree valueForTag:@"firstView"];
     if (view) {
         [self.views addObject:view];
     }
