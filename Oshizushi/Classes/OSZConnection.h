@@ -16,9 +16,9 @@
 @property (nonatomic, assign) NSInteger value;
 
 /**
- * the mertic name of this connection refering
+ * the metric name of this connection refering
  */
-@property (nonatomic, assign) NSString* merticName;
+@property (nonatomic, assign) NSString* metricName;
 
 /**
  * Initialize a connection with value string. 

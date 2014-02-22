@@ -9,11 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @class OSZConnection;
+@class OSZPredicate;
 
 @interface OSZView : NSObject
 
 @property (nonatomic, strong) NSString* name;
 
 @property (nonatomic, strong) OSZConnection* connection;
+
+@property (nonatomic, strong) OSZPredicate* predicate;
 
 @end

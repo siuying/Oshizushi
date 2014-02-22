@@ -12,6 +12,7 @@
 #import "OSZExpression.h"
 #import "OSZView.h"
 #import "OSZConnection.h"
+#import "OSZPredicate.h"
 
 #import "DDLog.h"
 #import "DDTTYLogger.h"
@@ -94,7 +95,7 @@ describe(@"OSZParser", ^{
                 
                 [[theValue(expression.pinToLeadingSuperview) should] equal:theValue(YES)];
                 [[theValue(expression.leadingConnection.value) should] equal:theValue(NSNotFound)];
-                [[expression.leadingConnection.merticName should] beNil];
+                [[expression.leadingConnection.metricName should] beNil];
                 [[theValue(expression.pinToTrailingSuperview) should] equal:theValue(NO)];
             });
             
@@ -104,11 +105,11 @@ describe(@"OSZParser", ^{
                 
                 [[expression.leadingConnection shouldNot] beNil];
                 [[theValue(expression.leadingConnection.value) should] equal:theValue(10)];
-                [[expression.leadingConnection.merticName should] beNil];
+                [[expression.leadingConnection.metricName should] beNil];
 
                 [[expression.trailingConnection shouldNot] beNil];
                 [[theValue(expression.trailingConnection.value) should] equal:theValue(4)];
-                [[expression.trailingConnection.merticName should] beNil];
+                [[expression.trailingConnection.metricName should] beNil];
             });
         });
         
@@ -121,11 +122,23 @@ describe(@"OSZParser", ^{
                 [[theValue(expression.views.count) should] equal:theValue(2)];
                 OSZView* view1 = expression.views[0];
                 [[[view1 name] should] equal:@"View"];
+                [[theValue([[view1 predicate] isDefault]) should] beTrue];
                 [[theValue([[view1 connection] isDefault]) should] beTrue];
+
                 OSZView* view2 = expression.views[1];
                 [[[view2 name] should] equal:@"Label"];
+                [[theValue([[view2 predicate] isDefault]) should] beTrue];
                 [[theValue([[view2 connection] isDefault]) should] beFalse];
                 [[theValue([[view2 connection] value]) should] equal:theValue(10)];
+            });
+        });
+        
+        context(@"matching predicate in a view", ^{
+            it(@"should parse [View(100)]", ^{
+                expression = [parser parseVisualFormatLanguage:@"[View(100)]"];
+                [[expression shouldNot] beNil];
+                
+                
             });
         });
     });

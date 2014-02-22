@@ -12,6 +12,7 @@
 #import "OSZExpression.h"
 #import "OSZConnection.h"
 #import "OSZView.h"
+#import "OSZPredicate.h"
 
 #define LOG_LEVEL_DEF oshiLibLogLevel
 #import "DDLog.h"
@@ -20,9 +21,9 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 static NSString*    OshConnectionRx = @"\\-(([0-9a-zA-Z]+|[0-9]+)\\-)?";
 static NSUInteger   OshConnectionRxNumberGroup = 2;
 
-//static NSString*    OshViewRx = @"^\\[([a-zA-Z][a-zA-Z0-9]*)(\\((>|<|==|>=|<=)?([a-zA-Z][a-zA-Z0-9]*)(@[0-9a-zA-Z]+)?\\))?\\]";
-static NSString*    OshViewRx = @"\\[([a-zA-Z][a-zA-Z0-9]*)\\]";
+static NSString*    OshViewRx = @"\\[([a-zA-Z][a-zA-Z0-9]*)(\\([^\\)]+\\))?\\]";
 static NSUInteger   OshViewRxNameGroup = 1;
+static NSUInteger   OshViewRxViewPredicateGroup = 2;
 
 @interface OSZParser()
 @property (nonatomic, strong) Rx* connectionRx;
@@ -161,6 +162,14 @@ static NSUInteger   OshViewRxNameGroup = 1;
     if ([nameGroup value]) {
         view.name = [nameGroup value];
     }
+    
+    RxMatchGroup* predicateGroup = groups[OshViewRxViewPredicateGroup];
+    if ([predicateGroup value]) {
+        view.predicate = [OSZPredicate predicateWithString:[predicateGroup value]];        
+    } else {
+        view.predicate = [OSZPredicate predicate];
+    }
+
     [input deleteCharactersInRange:result.range];
     return view;
 }

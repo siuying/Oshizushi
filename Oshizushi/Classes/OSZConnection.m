@@ -29,7 +29,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
     if ([valueString isMatch:RX(@"^[0-9]+$")]) {
         self.value = [valueString integerValue];
     } else {
-        self.merticName = valueString;
+        self.metricName = valueString;
     }
 
     return self;
@@ -37,7 +37,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
 -(BOOL) isMetric
 {
-    return self.merticName != nil;
+    return self.metricName != nil;
 }
 
 -(BOOL) isValue
@@ -55,7 +55,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
     if ([self isValue]) {
         return [NSString stringWithFormat:@"-%d-", self.value];
     } else if ([self isMetric]) {
-        return [NSString stringWithFormat:@"-%@-", self.merticName];
+        return [NSString stringWithFormat:@"-%@-", self.metricName];
     } else {
         return @"-";
     }
