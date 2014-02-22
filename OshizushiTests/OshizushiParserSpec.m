@@ -8,7 +8,6 @@
 
 #import <Kiwi/Kiwi.h>
 #import "OshizushiParser.h"
-#import "CoreParse.h"
 
 #import "OSZExpression.h"
 #import "OSZView.h"
@@ -105,7 +104,7 @@ describe(@"OshizushiParser", ^{
                 [[expression shouldNot] beNil];
                 
                 [[theValue(expression.pinToLeadingSuperview) should] equal:theValue(YES)];
-                [[theValue(expression.leadingConnection.value) should] equal:theValue(-1)];
+                [[theValue(expression.leadingConnection.value) should] equal:theValue(NSNotFound)];
                 [[expression.leadingConnection.merticName should] beNil];
                 [[theValue(expression.pinToTrailingSuperview) should] equal:theValue(NO)];
             });
@@ -115,12 +114,28 @@ describe(@"OshizushiParser", ^{
                 expression = [parser parseVisualFormatLanguage:@"H:|-10-[View]-4-|" error:&error];
                 [[expression shouldNot] beNil];
                 
+                [[expression.leadingConnection shouldNot] beNil];
                 [[theValue(expression.leadingConnection.value) should] equal:theValue(10)];
                 [[expression.leadingConnection.merticName should] beNil];
+
+                [[expression.trailingConnection shouldNot] beNil];
                 [[theValue(expression.trailingConnection.value) should] equal:theValue(4)];
                 [[expression.trailingConnection.merticName should] beNil];
             });
-            
+        });
+        
+        context(@"input string with multiple views and connections", ^{
+            it(@"should parse H:|-[View]-[Label]-| and pin to leading and trailing edge", ^{
+                NSError* error = nil;
+                expression = [parser parseVisualFormatLanguage:@"H:|-[View]-[Label]-|" error:&error];
+                [[expression shouldNot] beNil];
+
+                [[theValue(expression.views.count) should] equal:theValue(2)];
+                OSZView* view1 = expression.views[0];
+                [[[view1 name] should] equal:@"View"];
+                OSZView* view2 = expression.views[1];
+                [[[view2 name] should] equal:@"Label"];
+            });
         });
     });
 });

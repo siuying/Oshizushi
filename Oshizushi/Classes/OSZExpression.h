@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CPParser.h"
 
 typedef NS_ENUM(NSUInteger, OSZExpressionOrientation) {
     OSZExpressionOrientationVertical,
@@ -15,8 +14,9 @@ typedef NS_ENUM(NSUInteger, OSZExpressionOrientation) {
 };
 
 @class OSZConnection;
+@class OSZView;
 
-@interface OSZExpression : NSObject <CPParseResult>
+@interface OSZExpression : NSObject
 
 @property (nonatomic, assign) OSZExpressionOrientation orientation;
 
@@ -27,5 +27,7 @@ typedef NS_ENUM(NSUInteger, OSZExpressionOrientation) {
 
 @property (nonatomic, assign) BOOL pinToTrailingSuperview;
 @property (nonatomic, strong) OSZConnection* trailingConnection;
+
+-(void) addView:(OSZView*)view;
 
 @end

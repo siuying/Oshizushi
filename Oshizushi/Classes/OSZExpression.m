@@ -8,7 +8,7 @@
 
 #import "OSZExpression.h"
 #import "OSZView.h"
-#import "CoreParse.h"
+
 #import "ObjectiveSugar.h"
 #import "OSZConnection.h"
 
@@ -22,46 +22,16 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation OSZExpression
 
-- (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree {
+-(id) init
+{
     self = [super init];
-    
-    NSString* orientation = [[syntaxTree valueForTag:@"orientation"] firstObject];
-    if (orientation) {
-        self.orientation = [orientation isEqualToString:@"V:"] ? OSZExpressionOrientationVertical : OSZExpressionOrientationHorizontal;
-    } else {
-        self.orientation = OSZExpressionOrientationHorizontal;
-    }
-
-    _views = [NSMutableArray array];
-
-    OSZView* view = [syntaxTree valueForTag:@"firstView"];
-    if (view) {
-        [self.views addObject:view];
-    }
-    
-    NSArray* leadingElements = [[syntaxTree valueForTag:@"leading"] flatten];
-    if (leadingElements && [leadingElements count] > 0) {
-        CPKeywordToken* token = [leadingElements firstObject];
-        if ([[token keyword] isEqualToString:@"|"]) {
-            self.pinToLeadingSuperview = YES;
-        }
-        
-        OSZConnection* connection = [leadingElements lastObject];
-        self.leadingConnection = connection;
-    }
-
-    NSArray* trailingElements = [[syntaxTree valueForTag:@"trailing"] flatten];
-    if (trailingElements && [trailingElements count] > 0) {
-        CPKeywordToken* token = [trailingElements lastObject];
-        if ([[token keyword] isEqualToString:@"|"]) {
-            self.pinToTrailingSuperview = YES;
-        }
-
-        OSZConnection* connection = [trailingElements firstObject];
-        self.trailingConnection = connection;
-    }
-
+    self.views = [NSMutableArray array];
     return self;
+}
+
+-(void) addView:(OSZView*)view
+{
+    [self.views addObject:view];
 }
 
 @end

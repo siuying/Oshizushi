@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CPParser.h"
 
-@interface OSZView : NSObject <CPParseResult>
+@class OSZConnection;
+
+@interface OSZView : NSObject
 
 @property (nonatomic, strong) NSString* name;
+
+@property (nonatomic, strong) OSZConnection* connection;
 
 @end

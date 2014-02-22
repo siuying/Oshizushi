@@ -7,8 +7,8 @@
 //
 
 #import "OSZConnection.h"
-#import "CoreParse.h"
 #import "ObjectiveSugar.h"
+#import "RegExCategories.h"
 
 #define LOG_LEVEL_DEF oshiLibLogLevel
 #import "DDLog.h"
@@ -16,31 +16,49 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation OSZConnection
 
-- (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree
-{
+-(instancetype) init {
     self = [super init];
+    self.value = NSNotFound;
+    return self;
+}
 
-    self.value = -1;
+-(instancetype) initWithValueString:(NSString*)valueString
+{
+    self = [self init];
 
-    NSArray* children = [[syntaxTree children] flatten];
-    if ([children count] == 1) {
-        // simple connection '-'
-    } else if ([children count] == 3) {
-        CPToken* token = [children objectAtIndex:1];
-        if ([token isNumberToken]) {
-            CPNumberToken* numberToken = (CPNumberToken*) token;
-            self.value = [[numberToken number] integerValue];
-        }
-        
-        if ([token isKeywordToken]) {
-            CPKeywordToken* keywordToken = (CPKeywordToken*) token;
-            self.merticName = [keywordToken keyword];
-        }
+    if ([valueString isMatch:RX(@"^[0-9]+$")]) {
+        self.value = [valueString integerValue];
     } else {
-        [NSException raise:NSInvalidArgumentException format:@"Unexpected connection node: %@", syntaxTree];
+        self.merticName = valueString;
     }
 
     return self;
+}
+
+-(BOOL) isMetric
+{
+    return self.merticName != nil;
+}
+
+-(BOOL) isValue
+{
+    return self.value != NSNotFound;
+}
+
+-(BOOL) isDefault
+{
+    return ![self isValue] && ![self isMetric];
+}
+
+-(NSString*) description
+{
+    if ([self isValue]) {
+        return [NSString stringWithFormat:@"-%d-", self.value];
+    } else if ([self isMetric]) {
+        return [NSString stringWithFormat:@"-%@-", self.merticName];
+    } else {
+        return @"-";
+    }
 }
 
 @end

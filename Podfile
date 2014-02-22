@@ -1,8 +1,8 @@
 platform :ios, "6.1"
 
-pod 'CoreParse@siuying'
 pod 'CocoaLumberjack'
 pod 'ObjectiveSugar'
+pod 'RegExCategories'
 
 target "OshizushiTests" do
   pod 'Kiwi/XCTest'

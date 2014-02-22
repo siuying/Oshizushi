@@ -7,18 +7,26 @@
 //
 
 #import "OshizushiParser.h"
-#import "OshizushiTokeniser.h"
-#import "OshizushiGrammar.h"
-#import "CoreParse.h"
+#import "RegExCategories.h"
+
+#import "OSZExpression.h"
+#import "OSZConnection.h"
+#import "OSZView.h"
 
 #define LOG_LEVEL_DEF oshiLibLogLevel
 #import "DDLog.h"
 static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
+static NSString*    OshConnectionRx = @"\\-(([0-9a-zA-Z]+|[0-9]+)\\-)?";
+static NSUInteger   OshConnectionRxNumberGroup = 2;
+
+//static NSString*    OshViewRx = @"^\\[([a-zA-Z][a-zA-Z0-9]*)(\\((>|<|==|>=|<=)?([a-zA-Z][a-zA-Z0-9]*)(@[0-9a-zA-Z]+)?\\))?\\]";
+static NSString*    OshViewRx = @"\\[([a-zA-Z][a-zA-Z0-9]*)\\]";
+static NSUInteger   OshViewRxNameGroup = 1;
 
 @interface OshizushiParser()
-@property (nonatomic, strong) CPParser *parser;
-@property (nonatomic, strong) OshizushiTokeniser *tokenizer;
+@property (nonatomic, strong) Rx* connectionRx;
+@property (nonatomic, strong) Rx* viewRx;
 @end
 
 @implementation OshizushiParser
@@ -26,44 +34,135 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 -(instancetype) init
 {
     self = [super init];
-    self.tokenizer = [[OshizushiTokeniser alloc] init];
-    self.parser = [[CPLALR1Parser alloc] initWithGrammar:[[OshizushiGrammar alloc] init]];
-    self.parser.delegate = self;
+    
+    self.connectionRx = RX(OshConnectionRx);
+    self.viewRx = RX(OshViewRx);
+
     return self;
 }
 
-- (id)parseVisualFormatLanguage:(NSString *)vfl error:(NSError**)error
+- (id)parseVisualFormatLanguage:(NSString *)input error:(NSError**)error
 {
-    CPTokenStream* stream = [self.tokenizer tokenise:vfl];
-    return [self.parser parse:stream];
+    OSZExpression* expression = [[OSZExpression alloc] init];
+    
+    NSMutableString* workingInput = [input mutableCopy];
+    
+    [self processOrientationWithString:workingInput withExpression:expression];
+    [self processLeadingSuperviewWithString:workingInput withExpression:expression];
+    [self processFirstViewWithString:workingInput withExpression:expression];
+
+    while([self processConnectionAndViewWithString:workingInput withExpression:expression]) {}
+
+    [self processTrailingSuperviewWithString:workingInput withExpression:expression];
+
+    return expression;
 }
 
-#pragma mark - 
-
-- (id)parser:(CPParser *)parser didProduceSyntaxTree:(CPSyntaxTree *)syntaxTree
+- (void) processOrientationWithString:(NSMutableString*)input withExpression:(OSZExpression*)expression
 {
-    NSArray *children = [syntaxTree children];
-    switch ([[syntaxTree rule] tag]) {
-        case 1:
-        {
-            return (CPKeywordToken *)[children objectAtIndex:0];
-        }
-            break;
-        case 2:
-        case 3:
-        {
-            CPKeywordToken* token = (CPKeywordToken *)[children objectAtIndex:0];
-            return [token keyword];
-        }
-        default:
-            break;
+    if ([input hasPrefix:@"V:"]) {
+        expression.orientation = OSZExpressionOrientationVertical;
+        [input deleteCharactersInRange:NSMakeRange(0, 2)];
+        return;
     }
-    return syntaxTree;
+
+    if ([input hasPrefix:@"H:"]) {
+        expression.orientation = OSZExpressionOrientationHorizontal;
+        [input deleteCharactersInRange:NSMakeRange(0, 2)];
+        return;
+    }
+
+    expression.orientation = OSZExpressionOrientationHorizontal;
 }
 
-- (CPRecoveryAction *)parser:(CPParser *)parser didEncounterErrorOnInput:(CPTokenStream *)inputStream expecting:(NSSet *)acceptableTokens {
-    DDLogError(@"error parsing: %@, acceptable tokens: %@", inputStream, acceptableTokens);
-    return [CPRecoveryAction recoveryActionStop];
+- (void) processLeadingSuperviewWithString:(NSMutableString*)input withExpression:(OSZExpression*)expression
+{
+    if ([input hasPrefix:@"|"]) {
+        expression.pinToLeadingSuperview = YES;
+        [input deleteCharactersInRange:NSMakeRange(0, 1)];
+    }
+    expression.leadingConnection = [self processConnectionWithString:input];
+}
+
+- (void) processFirstViewWithString:(NSMutableString*)input withExpression:(OSZExpression*)expression
+{
+    OSZView* view = [self processViewWithString:input];
+    view.connection = expression.leadingConnection;
+    [expression addView:view];
+}
+
+- (BOOL) processConnectionAndViewWithString:(NSMutableString*)input withExpression:(OSZExpression*)expression
+{
+    if ([input isMatch:self.viewRx]) {
+        OSZConnection* connection = [self processConnectionWithString:input];
+        OSZView* view = [self processViewWithString:input];
+        if (view) {
+            view.connection = connection;
+            [expression addView:view];
+            return YES;
+        } else {
+            return NO;
+        }
+    } else {
+        return NO;
+    }
+}
+
+- (void) processTrailingSuperviewWithString:(NSMutableString*)input withExpression:(OSZExpression*)expression
+{
+    expression.trailingConnection = [self processConnectionWithString:input];
+    if ([input hasPrefix:@"|"]) {
+        expression.pinToTrailingSuperview = YES;
+        [input deleteCharactersInRange:NSMakeRange(0, 1)];
+    }
+}
+
+/**
+ * Look for a connection in input string, consume the string and return it.
+ * If connection not found, return nil.
+ * @param input Input string
+ * @return return a OSZConnection object, or nil if not found.
+ */
+- (OSZConnection*) processConnectionWithString:(NSMutableString*)input
+{
+    RxMatch* result = [self.connectionRx firstMatchWithDetails:input];
+    if (!result) {
+        return nil;
+    }
+    
+    [input deleteCharactersInRange:result.range];
+    OSZConnection* connection;
+    if ([result.value isEqualToString:@"-"]) {
+        connection = [[OSZConnection alloc] init];
+    } else {
+        NSArray* groups = [result groups];
+        RxMatchGroup* numberGroup = groups[OshConnectionRxNumberGroup];
+        connection = [[OSZConnection alloc] initWithValueString:[numberGroup value]];
+    }
+    return connection;
+}
+
+/**
+ * Look for a view in input string, consume the string and return it.
+ * If view not found, return nil.
+ * @param input Input string
+ * @return return a OSZView object, or nil if not found.
+ */
+- (OSZView*) processViewWithString:(NSMutableString*)input
+{
+    RxMatch* result = [self.viewRx firstMatchWithDetails:input];
+    if (!result) {
+        return nil;
+    }
+
+    OSZView* view = [[OSZView alloc] init];
+    NSArray* groups = [result groups];
+    RxMatchGroup* nameGroup = groups[OshViewRxNameGroup];
+    if ([nameGroup value]) {
+        view.name = [nameGroup value];
+    }
+    [input deleteCharactersInRange:result.range];
+    return view;
 }
 
 @end
