@@ -32,6 +32,7 @@ describe(@"OSZLayouter", ^{
             [[theValue(view.frame.origin.x) should] equal:theValue(5)];
             [[theValue(view.frame.origin.y) should] equal:theValue(0)];
             [[theValue(view.frame.size.width) should] equal:theValue(100)];
+            [[theValue(view.autoresizingMask & UIViewAutoresizingFlexibleRightMargin) should] equal:theValue(UIViewAutoresizingFlexibleRightMargin)];
         });
         
         it(@"should layout V:|-10-[view(50)]", ^{
@@ -44,6 +45,7 @@ describe(@"OSZLayouter", ^{
             [[theValue(view.frame.origin.x) should] equal:theValue(0)];
             [[theValue(view.frame.origin.y) should] equal:theValue(10)];
             [[theValue(view.frame.size.height) should] equal:theValue(50)];
+            [[theValue(view.autoresizingMask & UIViewAutoresizingFlexibleBottomMargin) should] equal:theValue(UIViewAutoresizingFlexibleBottomMargin)];
         });
     });
 });

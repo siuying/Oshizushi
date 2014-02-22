@@ -44,6 +44,8 @@ static const CGFloat DefaultEdgeConnection = 10.0;
     
     [viewObjects eachWithIndex:^(OSZView* viewRef, NSUInteger index) {
         UIView* view = [self viewWithName:viewRef.name views:views];
+        
+        UIViewAutoresizing autoresizing = view.autoresizingMask;
 
         CGFloat position = (expression.orientation == OSZExpressionOrientationHorizontal) ?
             view.frame.origin.x : view.frame.origin.y;
@@ -81,11 +83,16 @@ static const CGFloat DefaultEdgeConnection = 10.0;
 
                 position = (orientation == OSZExpressionOrientationHorizontal) ?
                     view.superview.frame.origin.x + padding : view.superview.frame.origin.y + padding;
+
+            } else {
+                // if not pin to superview, it has flexible margin
+                autoresizing = (orientation == OSZExpressionOrientationHorizontal) ?
+                    autoresizing | UIViewAutoresizingFlexibleLeftMargin : autoresizing | UIViewAutoresizingFlexibleTopMargin;
             }
         }
         
         // view is last view
-        if (index == [viewObjects count]) {
+        if (index == [viewObjects count] - 1) {
             if (expression.pinToTrailingSuperview) {
                 CGFloat padding;
                 
@@ -103,10 +110,15 @@ static const CGFloat DefaultEdgeConnection = 10.0;
                 
                 size = (orientation == OSZExpressionOrientationHorizontal) ?
                     view.superview.frame.size.width - position - padding : view.superview.frame.size.height - position - padding;
+            } else {
+                // if not pin to superview, it has flexible margin
+                autoresizing = (orientation == OSZExpressionOrientationHorizontal) ?
+                    (autoresizing | UIViewAutoresizingFlexibleRightMargin) : (autoresizing | UIViewAutoresizingFlexibleBottomMargin);
             }
         }
         
         // actual setting frame
+        view.autoresizingMask = autoresizing;
         view.frame = (orientation == OSZExpressionOrientationHorizontal) ?
             CGRectMake(position, view.frame.origin.y, size, view.frame.size.height) :
             CGRectMake(view.frame.origin.x, position, view.frame.size.width, size);
