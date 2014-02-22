@@ -41,7 +41,7 @@ static NSUInteger   OshViewRxNameGroup = 1;
     return self;
 }
 
-- (id)parseVisualFormatLanguage:(NSString *)input error:(NSError**)error
+- (OSZExpression*)parseVisualFormatLanguage:(NSString *)input
 {
     OSZExpression* expression = [[OSZExpression alloc] init];
     

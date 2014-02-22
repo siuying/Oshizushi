@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class OSZExpression;
+
 @interface OshizushiParser : NSObject
 
 - (instancetype) init;
 
-- (id)parseVisualFormatLanguage:(NSString *)vfl error:(NSError**)error;
+- (OSZExpression*)parseVisualFormatLanguage:(NSString *)input;
 
 @end
