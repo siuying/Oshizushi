@@ -14,7 +14,7 @@ typedef NS_ENUM(NSUInteger, OSZExpressionOrientation) {
     OSZExpressionOrientationHorizontal
 };
 
-@class OSZDirection;
+@class OSZConnection;
 
 @interface OSZExpression : NSObject <CPParseResult>
 
@@ -23,7 +23,9 @@ typedef NS_ENUM(NSUInteger, OSZExpressionOrientation) {
 @property (nonatomic, readonly) NSMutableArray* views;
 
 @property (nonatomic, assign) BOOL pinToLeadingSuperview;
+@property (nonatomic, strong) OSZConnection* leadingConnection;
 
 @property (nonatomic, assign) BOOL pinToTrailingSuperview;
+@property (nonatomic, strong) OSZConnection* trailingConnection;
 
 @end

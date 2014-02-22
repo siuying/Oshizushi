@@ -10,6 +10,7 @@
 #import "OSZView.h"
 #import "CoreParse.h"
 #import "ObjectiveSugar.h"
+#import "OSZConnection.h"
 
 #define LOG_LEVEL_DEF oshiLibLogLevel
 #import "DDLog.h"
@@ -44,15 +45,20 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
         if ([[token keyword] isEqualToString:@"|"]) {
             self.pinToLeadingSuperview = YES;
         }
+        
+        OSZConnection* connection = [leadingElements lastObject];
+        self.leadingConnection = connection;
     }
 
-    
     NSArray* trailingElements = [[syntaxTree valueForTag:@"trailing"] flatten];
     if (trailingElements && [trailingElements count] > 0) {
         CPKeywordToken* token = [trailingElements lastObject];
         if ([[token keyword] isEqualToString:@"|"]) {
             self.pinToTrailingSuperview = YES;
         }
+
+        OSZConnection* connection = [trailingElements firstObject];
+        self.trailingConnection = connection;
     }
 
     return self;

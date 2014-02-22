@@ -12,6 +12,7 @@
 
 #import "OSZExpression.h"
 #import "OSZView.h"
+#import "OSZConnection.h"
 
 #import "DDLog.h"
 #import "DDTTYLogger.h"
@@ -104,8 +105,22 @@ describe(@"OshizushiParser", ^{
                 [[expression shouldNot] beNil];
                 
                 [[theValue(expression.pinToLeadingSuperview) should] equal:theValue(YES)];
+                [[theValue(expression.leadingConnection.value) should] equal:theValue(-1)];
+                [[expression.leadingConnection.merticName should] beNil];
                 [[theValue(expression.pinToTrailingSuperview) should] equal:theValue(NO)];
             });
+            
+            it(@"should parse H:|-10-[View]-4-| and pin to leading and trailing edge with 10 pixel", ^{
+                NSError* error = nil;
+                expression = [parser parseVisualFormatLanguage:@"H:|-10-[View]-4-|" error:&error];
+                [[expression shouldNot] beNil];
+                
+                [[theValue(expression.leadingConnection.value) should] equal:theValue(10)];
+                [[expression.leadingConnection.merticName should] beNil];
+                [[theValue(expression.trailingConnection.value) should] equal:theValue(4)];
+                [[expression.trailingConnection.merticName should] beNil];
+            });
+            
         });
     });
 });
