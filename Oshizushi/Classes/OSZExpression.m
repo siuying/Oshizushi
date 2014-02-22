@@ -24,9 +24,9 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 - (id)initWithSyntaxTree:(CPSyntaxTree *)syntaxTree {
     self = [super init];
     
-    NSString* direction = [[syntaxTree valueForTag:@"direction"] firstObject];
-    if (direction) {
-        self.orientation = [direction isEqualToString:@"V:"] ? OSZExpressionOrientationVertical : OSZExpressionOrientationHorizontal;
+    NSString* orientation = [[syntaxTree valueForTag:@"orientation"] firstObject];
+    if (orientation) {
+        self.orientation = [orientation isEqualToString:@"V:"] ? OSZExpressionOrientationVertical : OSZExpressionOrientationHorizontal;
     } else {
         self.orientation = OSZExpressionOrientationHorizontal;
     }

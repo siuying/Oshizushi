@@ -1,4 +1,4 @@
-OSZExpression    ::= direction@<orientation>? leading@(<superview> <OSZConnection>?)? <OSZView> trailing@(<OSZConnection>? <superview>)?;
+OSZExpression    ::= orientation@<orientation>? leading@(<superview> <OSZConnection>?)? <OSZView> trailing@(<OSZConnection>? <superview>)?;
 OSZViewSet       ::=  <OSZConnection>? <OSZView>;
 OSZView          ::= '[' name@'Identifier' ']';
 OSZConnection    ::= '-' 'Number' '-';
