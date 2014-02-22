@@ -10,6 +10,7 @@
 		541D17B818B7BCEA00019CCA /* OSZExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 541D17B718B7BCEA00019CCA /* OSZExpression.m */; };
 		541D17BB18B7BDEC00019CCA /* OSZView.m in Sources */ = {isa = PBXBuildFile; fileRef = 541D17BA18B7BDEC00019CCA /* OSZView.m */; };
 		541D17BE18B7CEA700019CCA /* OSZConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 541D17BD18B7CEA700019CCA /* OSZConnection.m */; };
+		541D17C118B8B68500019CCA /* OSZLayouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 541D17C018B8B68500019CCA /* OSZLayouter.m */; };
 		54417F3D18B6F50D0053A9A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F3C18B6F50D0053A9A8 /* Foundation.framework */; };
 		54417F3F18B6F50D0053A9A8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F3E18B6F50D0053A9A8 /* CoreGraphics.framework */; };
 		54417F4118B6F50D0053A9A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F4018B6F50D0053A9A8 /* UIKit.framework */; };
@@ -47,6 +48,8 @@
 		541D17BA18B7BDEC00019CCA /* OSZView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSZView.m; path = Classes/OSZView.m; sourceTree = "<group>"; };
 		541D17BC18B7CEA700019CCA /* OSZConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSZConnection.h; path = Classes/OSZConnection.h; sourceTree = "<group>"; };
 		541D17BD18B7CEA700019CCA /* OSZConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSZConnection.m; path = Classes/OSZConnection.m; sourceTree = "<group>"; };
+		541D17BF18B8B68500019CCA /* OSZLayouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSZLayouter.h; path = Classes/OSZLayouter.h; sourceTree = "<group>"; };
+		541D17C018B8B68500019CCA /* OSZLayouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSZLayouter.m; path = Classes/OSZLayouter.m; sourceTree = "<group>"; };
 		54417F3918B6F50D0053A9A8 /* Oshizushi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oshizushi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54417F3C18B6F50D0053A9A8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		54417F3E18B6F50D0053A9A8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -183,6 +186,8 @@
 				5494CB8718B7B56B00FD586E /* AST */,
 				5494CB8B18B7B75500FD586E /* OshizushiParser.h */,
 				5494CB8C18B7B75500FD586E /* OshizushiParser.m */,
+				541D17BF18B8B68500019CCA /* OSZLayouter.h */,
+				541D17C018B8B68500019CCA /* OSZLayouter.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54417F4D18B6F50E0053A9A8 /* IGAppDelegate.m in Sources */,
+				541D17C118B8B68500019CCA /* OSZLayouter.m in Sources */,
 				541D17BB18B7BDEC00019CCA /* OSZView.m in Sources */,
 				5494CB8D18B7B75500FD586E /* OshizushiParser.m in Sources */,
 				54417F4918B6F50E0053A9A8 /* main.m in Sources */,
