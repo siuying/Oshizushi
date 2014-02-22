@@ -16,8 +16,25 @@
 
 @property (nonatomic, strong) NSString* name;
 
-@property (nonatomic, strong) OSZConnection* connection;
-
 @property (nonatomic, strong) OSZPredicate* predicate;
+
+-(NSInteger) constant;
+
+-(NSString*) metricName;
+
+/**
+ * If this connection has metric name.
+ */
+-(BOOL) isMetric;
+
+/**
+ * If this connection has value.
+ */
+-(BOOL) isConstant;
+
+/**
+ * If this connection has no metric name and value (and thus should use defaults)
+ */
+-(BOOL) isDefault;
 
 @end

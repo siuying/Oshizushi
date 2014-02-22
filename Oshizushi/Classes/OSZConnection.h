@@ -12,9 +12,9 @@
 @interface OSZConnection : OSZElement
 
 /**
- * The value of the connection, or NSNotFound if unset.
+ * The constant of the connection, or NSNotFound if unset.
  */
-@property (nonatomic, assign) NSInteger value;
+@property (nonatomic, assign) NSInteger constant;
 
 /**
  * the metric name of this connection refering
@@ -43,7 +43,7 @@
 /**
  * If this connection has value.
  */
--(BOOL) isValue;
+-(BOOL) isConstant;
 
 /**
  * If this connection has no metric name and value (and thus should use defaults)

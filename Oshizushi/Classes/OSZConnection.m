@@ -18,7 +18,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
 -(instancetype) init {
     self = [super init];
-    self.value = NSNotFound;
+    self.constant = NSNotFound;
     return self;
 }
 
@@ -27,7 +27,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
     self = [self init];
 
     if ([valueString isMatch:RX(@"^[0-9]+$")]) {
-        self.value = [valueString integerValue];
+        self.constant = [valueString integerValue];
     } else {
         self.metricName = valueString;
     }
@@ -40,20 +40,20 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
     return self.metricName != nil;
 }
 
--(BOOL) isValue
+-(BOOL) isConstant
 {
-    return self.value != NSNotFound;
+    return self.constant != NSNotFound;
 }
 
 -(BOOL) isDefault
 {
-    return ![self isValue] && ![self isMetric];
+    return ![self isConstant] && ![self isMetric];
 }
 
 -(NSString*) description
 {
-    if ([self isValue]) {
-        return [NSString stringWithFormat:@"-%d-", self.value];
+    if ([self isConstant]) {
+        return [NSString stringWithFormat:@"-%d-", self.constant];
     } else if ([self isMetric]) {
         return [NSString stringWithFormat:@"-%@-", self.metricName];
     } else {

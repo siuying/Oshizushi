@@ -84,24 +84,29 @@ static NSUInteger   OshViewRxViewPredicateGroup = 3;
         expression.pinToLeadingSuperview = YES;
         [input deleteCharactersInRange:NSMakeRange(0, 1)];
     }
-    expression.leadingConnection = [self processConnectionWithString:input];
+    
+    OSZConnection* connection = [self processConnectionWithString:input];
+    if (connection) {
+        expression.leadingConnection = connection;
+        [expression addElement:connection];
+    }
 }
 
 - (void) processFirstViewWithString:(NSMutableString*)input withExpression:(OSZExpression*)expression
 {
     OSZView* view = [self processViewWithString:input];
-    view.connection = expression.leadingConnection;
-    [expression addView:view];
+    [expression addElement:view];
 }
 
 - (BOOL) processConnectionAndViewWithString:(NSMutableString*)input withExpression:(OSZExpression*)expression
 {
     if ([input isMatch:self.viewRx]) {
         OSZConnection* connection = [self processConnectionWithString:input];
+        [expression addElement:connection];
+
         OSZView* view = [self processViewWithString:input];
         if (view) {
-            view.connection = connection;
-            [expression addView:view];
+            [expression addElement:view];
             return YES;
         } else {
             return NO;
@@ -113,7 +118,12 @@ static NSUInteger   OshViewRxViewPredicateGroup = 3;
 
 - (void) processTrailingSuperviewWithString:(NSMutableString*)input withExpression:(OSZExpression*)expression
 {
-    expression.trailingConnection = [self processConnectionWithString:input];
+    OSZConnection* connection = [self processConnectionWithString:input];
+    if (connection) {
+        expression.trailingConnection = connection;
+        [expression addElement:connection];
+    }
+
     if ([input hasPrefix:@"|"]) {
         expression.pinToTrailingSuperview = YES;
         [input deleteCharactersInRange:NSMakeRange(0, 1)];

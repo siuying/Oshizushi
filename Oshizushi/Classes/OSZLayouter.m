@@ -10,6 +10,7 @@
 #import "OSZExpression.h"
 #import "OSZConnection.h"
 #import "OSZPredicate.h"
+#import "OSZElement.h"
 
 #import "OSZParser.h"
 #import "OSZView.h"
@@ -37,92 +38,81 @@ static const CGFloat DefaultEdgeConnection = 10.0;
                                  metrics:(NSDictionary*)metrics
                                    views:(NSDictionary*)views
 {
-    NSArray* viewObjects = [expression views];
-    DDLogDebug(@"views: %@", viewObjects);
+    NSArray* elements = [expression elements];
+    DDLogDebug(@"views: %@", elements);
     
     OSZExpressionOrientation orientation = expression.orientation;
-    
-    [viewObjects eachWithIndex:^(OSZView* viewRef, NSUInteger index) {
-        UIView* view = [self viewWithName:viewRef.name views:views];
-        
-        UIViewAutoresizing autoresizing = view.autoresizingMask;
 
-        CGFloat position = (expression.orientation == OSZExpressionOrientationHorizontal) ?
-            view.frame.origin.x : view.frame.origin.y;
-
-        CGFloat size;
-        
-        if (viewRef.predicate) {
-            if ([viewRef.predicate isDefault]) {
-                CGSize fittingSize = [view sizeThatFits:view.superview.frame.size];
-                size = (expression.orientation == OSZExpressionOrientationHorizontal) ?
-                    fittingSize.width : fittingSize.height;
-            } else if ([viewRef.predicate isConstant]) {
-                size = viewRef.predicate.constant;
-            } else if ([viewRef.predicate isMetric]) {
-                size = [self metricWithName:viewRef.predicate.metricName metrics:metrics];
-            }
+    __block NSNumber* position = nil;
+    __block OSZView* lastView = nil;
+    void(^processElements)(NSArray*) = ^(NSArray* elements){
+        if (expression.pinToLeadingSuperview) {
+            position = @0;
         }
-
-        // view is first view
-        if (index == 0) {
-            if (expression.pinToLeadingSuperview) {
-                CGFloat padding;
-                
-                if (expression.leadingConnection) {
-                    if ([expression.leadingConnection isMetric]) {
-                        padding = [self metricWithName:expression.leadingConnection.metricName metrics:metrics];
-                    } else if ([expression.leadingConnection isValue]) {
-                        padding = expression.leadingConnection.value;
-                    } else {
-                        padding = DefaultEdgeConnection;
+        [elements enumerateObjectsUsingBlock:^(OSZElement* element, NSUInteger idx, BOOL *stop) {
+            DDLogInfo(@"processing element: %@", element);
+            if (idx == 0) {
+                if (orientation == OSZExpressionOrientationHorizontal) {
+                    // position
+                    element.left = position;
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.width = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.width = @([self metricWithName:element.metricName metrics:metrics]);
                     }
-                } else {
-                    padding = 0;
+                } else if (orientation == OSZExpressionOrientationVertical) {
+                    // position
+                    element.top = position;
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.height = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
                 }
 
-                position = (orientation == OSZExpressionOrientationHorizontal) ?
-                    view.superview.frame.origin.x + padding : view.superview.frame.origin.y + padding;
-
             } else {
-                // if not pin to superview, it has flexible margin
-                autoresizing = (orientation == OSZExpressionOrientationHorizontal) ?
-                    autoresizing | UIViewAutoresizingFlexibleLeftMargin : autoresizing | UIViewAutoresizingFlexibleTopMargin;
-            }
-        }
-        
-        // view is last view
-        if (index == [viewObjects count] - 1) {
-            if (expression.pinToTrailingSuperview) {
-                CGFloat padding;
-                
-                if (expression.trailingConnection) {
-                    if ([expression.trailingConnection isMetric]) {
-                        padding = [self metricWithName:expression.trailingConnection.metricName metrics:metrics];
-                    } else if ([expression.trailingConnection isValue]) {
-                        padding = expression.trailingConnection.value;
+                OSZElement* lastElement = [elements objectAtIndex:idx-1];
+                if (orientation == OSZExpressionOrientationHorizontal) {
+                    // position
+                    if (lastElement.width) {
+                        element.left = @(position.integerValue + lastElement.width.integerValue);
+                        element.leftRef = lastView.name;
                     } else {
-                        padding = DefaultEdgeConnection;
+                        element.leftRef = lastView.name;
                     }
-                } else {
-                    padding = 0;
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.width = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
+                } else if (orientation == OSZExpressionOrientationVertical) {
+                    // position
+                    if (lastElement.height) {
+                        element.top = @(position.integerValue + lastElement.height.integerValue);
+                        element.topRef = lastView.name;
+                    } else {
+                        element.topRef = lastView.name;
+                    }
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.height = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
                 }
-                
-                size = (orientation == OSZExpressionOrientationHorizontal) ?
-                    view.superview.frame.size.width - position - padding : view.superview.frame.size.height - position - padding;
-            } else {
-                // if not pin to superview, it has flexible margin
-                autoresizing = (orientation == OSZExpressionOrientationHorizontal) ?
-                    (autoresizing | UIViewAutoresizingFlexibleRightMargin) : (autoresizing | UIViewAutoresizingFlexibleBottomMargin);
+
             }
-        }
-        
-        // actual setting frame
-        view.autoresizingMask = autoresizing;
-        view.frame = (orientation == OSZExpressionOrientationHorizontal) ?
-            CGRectMake(position, view.frame.origin.y, size, view.frame.size.height) :
-            CGRectMake(view.frame.origin.x, position, view.frame.size.width, size);
-    }];
+        }];
+    };
+
+    processElements(elements);
 }
 
 -(UIView*) viewWithName:(NSString*)name views:(NSDictionary*)views {

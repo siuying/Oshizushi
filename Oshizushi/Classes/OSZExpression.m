@@ -8,6 +8,7 @@
 
 #import "OSZExpression.h"
 #import "OSZView.h"
+#import "OSZElement.h"
 
 #import "ObjectiveSugar.h"
 #import "OSZConnection.h"
@@ -17,7 +18,7 @@
 static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
 @interface OSZExpression()
-@property (nonatomic, strong) NSMutableArray* views;
+@property (nonatomic, strong) NSMutableArray* elements;
 @end
 
 @implementation OSZExpression
@@ -25,13 +26,13 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 -(id) init
 {
     self = [super init];
-    self.views = [NSMutableArray array];
+    self.elements = [NSMutableArray array];
     return self;
 }
 
--(void) addView:(OSZView*)view
+-(void) addElement:(OSZElement*)element
 {
-    [self.views addObject:view];
+    [self.elements addObject:element];
 }
 
 @end

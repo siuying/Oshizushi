@@ -7,8 +7,12 @@
 //
 
 #import <Kiwi/Kiwi.h>
-#import "OSZLayouter.h"
 
+#import "DDLog.h"
+#import "DDTTYLogger.h"
+#import "DDASLLogger.h"
+
+#import "OSZLayouter.h"
 
 SPEC_BEGIN(OSZLayouterSpec)
 
@@ -19,8 +23,15 @@ describe(@"OSZLayouter", ^{
     beforeEach(^{
         layouter = [[OSZLayouter alloc] init];
         superview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+        [DDLog addLogger:[DDTTYLogger sharedInstance]];
+        [DDLog addLogger:[DDASLLogger sharedInstance]];
     });
     
+    afterEach(^{
+        [DDLog flushLog];
+        [DDLog removeAllLoggers];
+    });
+
     context(@"Pin to one edge", ^{
         it(@"should layout |-5-[view(100)]", ^{
             UIView* view = [[UIView alloc] initWithFrame:CGRectZero];

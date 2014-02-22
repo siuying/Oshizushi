@@ -15,12 +15,13 @@ typedef NS_ENUM(NSUInteger, OSZExpressionOrientation) {
 
 @class OSZConnection;
 @class OSZView;
+@class OSZElement;
 
 @interface OSZExpression : NSObject
 
 @property (nonatomic, assign) OSZExpressionOrientation orientation;
 
-@property (nonatomic, readonly) NSMutableArray* views;
+@property (nonatomic, readonly) NSMutableArray* elements;
 
 @property (nonatomic, assign) BOOL pinToLeadingSuperview;
 @property (nonatomic, strong) OSZConnection* leadingConnection;
@@ -28,6 +29,6 @@ typedef NS_ENUM(NSUInteger, OSZExpressionOrientation) {
 @property (nonatomic, assign) BOOL pinToTrailingSuperview;
 @property (nonatomic, strong) OSZConnection* trailingConnection;
 
--(void) addView:(OSZView*)view;
+-(void) addElement:(OSZElement*)element;
 
 @end
