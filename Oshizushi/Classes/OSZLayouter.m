@@ -8,7 +8,7 @@
 
 #import "OSZLayouter.h"
 #import "OSZExpression.h"
-#import "OshizushiParser.h"
+#import "OSZParser.h"
 
 @implementation OSZLayouter
 
@@ -16,7 +16,7 @@
                        metrics:(NSDictionary*)metrics
                          views:(NSDictionary*)views
 {
-    OshizushiParser* parser = [[OshizushiParser alloc] init];
+    OSZParser* parser = [[OSZParser alloc] init];
     OSZExpression* expression = [parser parseVisualFormatLanguage:visualFormat];
     [self layoutWithVisualFormatExpression:expression metrics:metrics views:views];
 }

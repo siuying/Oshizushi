@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Ignition Soft. All rights reserved.
 //
 
-#import "OshizushiParser.h"
+#import "OSZParser.h"
 #import "RegExCategories.h"
 
 #import "OSZExpression.h"
@@ -24,12 +24,12 @@ static NSUInteger   OshConnectionRxNumberGroup = 2;
 static NSString*    OshViewRx = @"\\[([a-zA-Z][a-zA-Z0-9]*)\\]";
 static NSUInteger   OshViewRxNameGroup = 1;
 
-@interface OshizushiParser()
+@interface OSZParser()
 @property (nonatomic, strong) Rx* connectionRx;
 @property (nonatomic, strong) Rx* viewRx;
 @end
 
-@implementation OshizushiParser
+@implementation OSZParser
 
 -(instancetype) init
 {

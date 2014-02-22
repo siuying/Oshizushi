@@ -10,7 +10,7 @@
 
 @class OSZExpression;
 
-@interface OshizushiParser : NSObject
+@interface OSZParser : NSObject
 
 - (instancetype) init;
 

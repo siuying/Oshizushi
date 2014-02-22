@@ -7,7 +7,7 @@
 //
 
 #import <Kiwi/Kiwi.h>
-#import "OshizushiParser.h"
+#import "OSZParser.h"
 
 #import "OSZExpression.h"
 #import "OSZView.h"
@@ -16,14 +16,14 @@
 #import "DDLog.h"
 #import "DDTTYLogger.h"
 
-SPEC_BEGIN(OshizushiParserSpec)
+SPEC_BEGIN(OSZParserSpec)
 
-describe(@"OshizushiParser", ^{
-    __block OshizushiParser* parser;
+describe(@"OSZParser", ^{
+    __block OSZParser* parser;
     __block OSZExpression* expression;
 
     beforeEach(^{
-        parser = [[OshizushiParser alloc] init];
+        parser = [[OSZParser alloc] init];
         [DDLog addLogger:[DDTTYLogger sharedInstance]];
     });
     
@@ -114,6 +114,7 @@ describe(@"OshizushiParser", ^{
         
         context(@"input string with multiple views and connections", ^{
             it(@"should parse H:|-[View]-[Label]-| and pin to leading and trailing edge", ^{
+                
                 expression = [parser parseVisualFormatLanguage:@"H:|-[View]-10-[Label]-|"];
                 [[expression shouldNot] beNil];
 
