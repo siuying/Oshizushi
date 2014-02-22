@@ -21,9 +21,9 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 static NSString*    OshConnectionRx = @"\\-(([0-9a-zA-Z]+|[0-9]+)\\-)?";
 static NSUInteger   OshConnectionRxNumberGroup = 2;
 
-static NSString*    OshViewRx = @"\\[([a-zA-Z][a-zA-Z0-9]*)(\\([^\\)]+\\))?\\]";
+static NSString*    OshViewRx = @"\\[([a-zA-Z][a-zA-Z0-9]*)(\\(([^\\)]+)\\))?\\]";
 static NSUInteger   OshViewRxNameGroup = 1;
-static NSUInteger   OshViewRxViewPredicateGroup = 2;
+static NSUInteger   OshViewRxViewPredicateGroup = 3;
 
 @interface OSZParser()
 @property (nonatomic, strong) Rx* connectionRx;
