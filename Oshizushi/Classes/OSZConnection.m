@@ -8,6 +8,7 @@
 
 #import "OSZConnection.h"
 #import "CoreParse.h"
+#import "ObjectiveSugar.h"
 
 #define LOG_LEVEL_DEF oshiLibLogLevel
 #import "DDLog.h"
@@ -21,8 +22,9 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
     self.value = -1;
 
-    NSArray* children = [syntaxTree children];
+    NSArray* children = [[syntaxTree children] flatten];
     if ([children count] == 1) {
+        // simple connection '-'
     } else if ([children count] == 3) {
         CPToken* token = [children objectAtIndex:1];
         if ([token isNumberToken]) {
