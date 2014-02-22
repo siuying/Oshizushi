@@ -52,7 +52,21 @@ describe(@"OSZPredicate", ^{
             [[theValue(predicate.priority) should] equal:theValue(50)];
         });
     });
-
+    
+    context(@"complex cases", ^{
+        it(@"should parse predicate with all input", ^{
+            OSZPredicate* predicate = [OSZPredicate predicateWithString:@">=100@50"];
+            [[theValue(predicate.constant) should] equal:theValue(100)];
+            [[theValue(predicate.relation) should] equal:theValue(OSZPredicateRelationGreaterThanOrEqualTo)];
+            [[theValue(predicate.priority) should] equal:theValue(50)];
+            
+            predicate = [OSZPredicate predicateWithString:@"<=width@100"];
+            [[theValue(predicate.constant) should] equal:theValue(NSNotFound)];
+            [[(predicate.metricName) should] equal:@"width"];
+            [[theValue(predicate.relation) should] equal:theValue(OSZPredicateRelationLessThanOrEqualTo)];
+            [[theValue(predicate.priority) should] equal:theValue(100)];
+        });
+    });
 });
 
 SPEC_END
