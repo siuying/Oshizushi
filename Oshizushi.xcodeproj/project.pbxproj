@@ -23,7 +23,6 @@
 		54417F6018B6F50E0053A9A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F3C18B6F50D0053A9A8 /* Foundation.framework */; };
 		54417F6118B6F50E0053A9A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54417F4018B6F50D0053A9A8 /* UIKit.framework */; };
 		54417F6918B6F50E0053A9A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 54417F6718B6F50E0053A9A8 /* InfoPlist.strings */; };
-		5494CB7A18B7AF1000FD586E /* Oshizushi.grammar in Resources */ = {isa = PBXBuildFile; fileRef = 5494CB7918B7AF1000FD586E /* Oshizushi.grammar */; };
 		5494CB8D18B7B75500FD586E /* OSZParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8C18B7B75500FD586E /* OSZParser.m */; };
 		5494CB8F18B7B84E00FD586E /* OSZParserSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5494CB8E18B7B84E00FD586E /* OSZParserSpec.m */; };
 		8F58DD307BA44D78BA85AECD /* libPods-OshizushiTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E373FA3050ED4B0B83CCAE0A /* libPods-OshizushiTests.a */; };
@@ -67,7 +66,6 @@
 		54417F5E18B6F50E0053A9A8 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		54417F6618B6F50E0053A9A8 /* OshizushiTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OshizushiTests-Info.plist"; sourceTree = "<group>"; };
 		54417F6818B6F50E0053A9A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5494CB7918B7AF1000FD586E /* Oshizushi.grammar */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Oshizushi.grammar; sourceTree = SOURCE_ROOT; };
 		5494CB8B18B7B75500FD586E /* OSZParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSZParser.h; path = Classes/OSZParser.h; sourceTree = "<group>"; };
 		5494CB8C18B7B75500FD586E /* OSZParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSZParser.m; path = Classes/OSZParser.m; sourceTree = "<group>"; };
 		5494CB8E18B7B84E00FD586E /* OSZParserSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSZParserSpec.m; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 		54417F4218B6F50D0053A9A8 /* Oshizushi */ = {
 			isa = PBXGroup;
 			children = (
-				5494CB7B18B7AF1200FD586E /* Grammar */,
 				5494CB7818B7AEF800FD586E /* Classes */,
 				54417F4B18B6F50E0053A9A8 /* IGAppDelegate.h */,
 				54417F4C18B6F50E0053A9A8 /* IGAppDelegate.m */,
@@ -190,14 +187,6 @@
 				541D17C018B8B68500019CCA /* OSZLayouter.m */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		5494CB7B18B7AF1200FD586E /* Grammar */ = {
-			isa = PBXGroup;
-			children = (
-				5494CB7918B7AF1000FD586E /* Oshizushi.grammar */,
-			);
-			name = Grammar;
 			sourceTree = "<group>";
 		};
 		5494CB8718B7B56B00FD586E /* AST */ = {
@@ -296,7 +285,6 @@
 			files = (
 				54417F5818B6F50E0053A9A8 /* Images.xcassets in Resources */,
 				54417F4718B6F50E0053A9A8 /* InfoPlist.strings in Resources */,
-				5494CB7A18B7AF1000FD586E /* Oshizushi.grammar in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
