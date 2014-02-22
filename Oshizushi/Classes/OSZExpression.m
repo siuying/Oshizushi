@@ -42,7 +42,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
     if (leadingElements && [leadingElements count] > 0) {
         CPKeywordToken* token = [leadingElements firstObject];
         if ([[token keyword] isEqualToString:@"|"]) {
-            self.pinToLeadingEdge = YES;
+            self.pinToLeadingSuperview = YES;
         }
     }
 
@@ -51,7 +51,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
     if (trailingElements && [trailingElements count] > 0) {
         CPKeywordToken* token = [trailingElements lastObject];
         if ([[token keyword] isEqualToString:@"|"]) {
-            self.pinToTrailingEdge = YES;
+            self.pinToTrailingSuperview = YES;
         }
     }
 

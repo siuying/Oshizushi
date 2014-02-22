@@ -65,8 +65,8 @@ describe(@"OshizushiParser", ^{
                 expression = [parser parseVisualFormatLanguage:@"H:|-[View]-|" error:&error];
                 [[expression shouldNot] beNil];
                 
-                [[theValue(expression.pinToLeadingEdge) should] equal:theValue(YES)];
-                [[theValue(expression.pinToTrailingEdge) should] equal:theValue(YES)];
+                [[theValue(expression.pinToLeadingSuperview) should] equal:theValue(YES)];
+                [[theValue(expression.pinToTrailingSuperview) should] equal:theValue(YES)];
             });
             
             it(@"should parse H:|-[View] and only pin to leading edge", ^{
@@ -74,8 +74,8 @@ describe(@"OshizushiParser", ^{
                 expression = [parser parseVisualFormatLanguage:@"H:|-[View]" error:&error];
                 [[expression shouldNot] beNil];
                 
-                [[theValue(expression.pinToLeadingEdge) should] equal:theValue(YES)];
-                [[theValue(expression.pinToTrailingEdge) should] equal:theValue(NO)];
+                [[theValue(expression.pinToLeadingSuperview) should] equal:theValue(YES)];
+                [[theValue(expression.pinToTrailingSuperview) should] equal:theValue(NO)];
             });
         });
         
@@ -85,8 +85,8 @@ describe(@"OshizushiParser", ^{
                 expression = [parser parseVisualFormatLanguage:@"H:|-[View]-|" error:&error];
                 [[expression shouldNot] beNil];
                 
-                [[theValue(expression.pinToLeadingEdge) should] equal:theValue(YES)];
-                [[theValue(expression.pinToTrailingEdge) should] equal:theValue(YES)];
+                [[theValue(expression.pinToLeadingSuperview) should] equal:theValue(YES)];
+                [[theValue(expression.pinToTrailingSuperview) should] equal:theValue(YES)];
             });
             
             it(@"should parse H:|-[View] and only pin to leading edge", ^{
@@ -94,8 +94,8 @@ describe(@"OshizushiParser", ^{
                 expression = [parser parseVisualFormatLanguage:@"H:|-[View]" error:&error];
                 [[expression shouldNot] beNil];
                 
-                [[theValue(expression.pinToLeadingEdge) should] equal:theValue(YES)];
-                [[theValue(expression.pinToTrailingEdge) should] equal:theValue(NO)];
+                [[theValue(expression.pinToLeadingSuperview) should] equal:theValue(YES)];
+                [[theValue(expression.pinToTrailingSuperview) should] equal:theValue(NO)];
             });
         });
     });

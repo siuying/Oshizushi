@@ -22,8 +22,8 @@ typedef NS_ENUM(NSUInteger, OSZExpressionOrientation) {
 
 @property (nonatomic, readonly) NSMutableArray* views;
 
-@property (nonatomic, assign) BOOL pinToLeadingEdge;
+@property (nonatomic, assign) BOOL pinToLeadingSuperview;
 
-@property (nonatomic, assign) BOOL pinToTrailingEdge;
+@property (nonatomic, assign) BOOL pinToTrailingSuperview;
 
 @end
