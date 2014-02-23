@@ -40,89 +40,92 @@ static const CGFloat DefaultEdgeConnection = 10.0;
 {
     NSArray* elements = [expression elements];
     DDLogDebug(@"views: %@", elements);
-    
-    OSZExpressionOrientation orientation = expression.orientation;
 
-    __block NSNumber* position = nil;
-    __block OSZView* lastView = nil;
-    void(^processElements)(NSArray*) = ^(NSArray* elements){
-        if (expression.pinToLeadingSuperview) {
-            position = @0;
-        }
-        [elements enumerateObjectsUsingBlock:^(OSZElement* element, NSUInteger idx, BOOL *stop) {
-            DDLogInfo(@"processing element: %@", element);
-            if (idx == 0) {
-                if (orientation == OSZExpressionOrientationHorizontal) {
-                    // position
-                    element.left = position;
-                    
-                    // size
-                    if ([element isConstant]) {
-                        element.width = @(element.constant);
-                    } else if ([element isMetric]) {
-                        element.width = @([self metricWithName:element.metricName metrics:metrics]);
-                    }
-                } else if (orientation == OSZExpressionOrientationVertical) {
-                    // position
-                    element.top = position;
-                    
-                    // size
-                    if ([element isConstant]) {
-                        element.height = @(element.constant);
-                    } else if ([element isMetric]) {
-                        element.height = @([self metricWithName:element.metricName metrics:metrics]);
-                    }
-                }
-
-            } else {
-                OSZElement* lastElement = [elements objectAtIndex:idx-1];
-                if (orientation == OSZExpressionOrientationHorizontal) {
-                    // position
-                    if (lastElement.width) {
-                        element.left = @(position.integerValue + lastElement.width.integerValue);
-                        element.leftRef = lastView.name;
-                    } else {
-                        element.leftRef = lastView.name;
-                    }
-                    
-                    // size
-                    if ([element isConstant]) {
-                        element.width = @(element.constant);
-                    } else if ([element isMetric]) {
-                        element.width = @([self metricWithName:element.metricName metrics:metrics]);
-                    }
-                } else if (orientation == OSZExpressionOrientationVertical) {
-                    // position
-                    if (lastElement.height) {
-                        element.top = @(position.integerValue + lastElement.height.integerValue);
-                        element.topRef = lastView.name;
-                    } else {
-                        element.topRef = lastView.name;
-                    }
-                    
-                    // size
-                    if ([element isConstant]) {
-                        element.height = @(element.constant);
-                    } else if ([element isMetric]) {
-                        element.height = @([self metricWithName:element.metricName metrics:metrics]);
-                    }
-                }
-            }
-        }];
-    };
-
-    processElements(elements);
+    [self calculateLayoutWithExpression:expression metrics:metrics views:views];
     
     [[elements select:^BOOL(id object) {
         return [object isKindOfClass:[OSZView class]];
     }] eachWithIndex:^(OSZView* view, NSUInteger index) {
-        [self layoutWithViewElement:view metrics:metrics views:views];
+        [self layoutViewWithViewElement:view metrics:metrics views:views];
     }];
 }
 
 #pragma mark - 
 
--(void) layoutWithViewElement:(OSZView*)viewElement metrics:(NSDictionary*)metrics views:(NSDictionary*)views
+-(void) calculateLayoutWithExpression:(OSZExpression*)expression metrics:(NSDictionary*)metrics views:(NSDictionary*)views
+{
+    OSZExpressionOrientation orientation = expression.orientation;
+    __block NSNumber* position = nil;
+    __block OSZView* lastView = nil;
+    NSArray* elements = [expression elements];
+
+    if (expression.pinToLeadingSuperview) {
+        position = @0;
+    }
+
+    [elements enumerateObjectsUsingBlock:^(OSZElement* element, NSUInteger idx, BOOL *stop) {
+        DDLogInfo(@"processing element: %@", element);
+        if (idx == 0) {
+            if (orientation == OSZExpressionOrientationHorizontal) {
+                // position
+                element.left = position;
+                
+                // size
+                if ([element isConstant]) {
+                    element.width = @(element.constant);
+                } else if ([element isMetric]) {
+                    element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                }
+            } else if (orientation == OSZExpressionOrientationVertical) {
+                // position
+                element.top = position;
+                
+                // size
+                if ([element isConstant]) {
+                    element.height = @(element.constant);
+                } else if ([element isMetric]) {
+                    element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                }
+            }
+            
+        } else {
+            OSZElement* lastElement = [elements objectAtIndex:idx-1];
+            if (orientation == OSZExpressionOrientationHorizontal) {
+                // position
+                if (lastElement.width) {
+                    element.left = @(position.integerValue + lastElement.width.integerValue);
+                    element.leftRef = lastView.name;
+                } else {
+                    element.leftRef = lastView.name;
+                }
+                
+                // size
+                if ([element isConstant]) {
+                    element.width = @(element.constant);
+                } else if ([element isMetric]) {
+                    element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                }
+            } else if (orientation == OSZExpressionOrientationVertical) {
+                // position
+                if (lastElement.height) {
+                    element.top = @(position.integerValue + lastElement.height.integerValue);
+                    element.topRef = lastView.name;
+                } else {
+                    element.topRef = lastView.name;
+                }
+                
+                // size
+                if ([element isConstant]) {
+                    element.height = @(element.constant);
+                } else if ([element isMetric]) {
+                    element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                }
+            }
+        }
+    }];
+}
+
+-(void) layoutViewWithViewElement:(OSZView*)viewElement metrics:(NSDictionary*)metrics views:(NSDictionary*)views
 {
     UIView* view = [self viewWithName:viewElement.name views:views];
 
