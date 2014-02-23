@@ -101,6 +101,8 @@ static const CGFloat DefaultInnerConnection = 5.0;
                         width = DefaultInnerConnection;
                     }
                 }
+
+                connection.width = @(width);
                 position = @(position.floatValue + width);
             }
         }
@@ -167,40 +169,65 @@ static const CGFloat DefaultInnerConnection = 5.0;
     CGFloat y = view.frame.origin.y;
     CGFloat width = view.frame.size.width;
     CGFloat height = view.frame.size.height;
-    
+    UIViewAutoresizing autoresizing = view.autoresizingMask;
+
     NSLog(@"references: %@", [viewElement references]);
     
     if (orientation == OSZExpressionOrientationHorizontal) {
-        if (viewElement.width) {
-            width = viewElement.width.floatValue;
-        } else if ([viewElement isMetric]) {
-            width = [self metricWithName:viewElement.metricName metrics:metrics];
-        } else if (viewElement.left && viewElement.right) {
-            width = CGRectGetWidth(superview.frame) - viewElement.left.floatValue - viewElement.right.floatValue;
-        } else if ([viewElement isDefault]) {
-            width = view.frame.size.width;
-        }
-        
-        if (!viewElement.leftRef && viewElement.left) {
+        if (!viewElement.leftRef && viewElement.left && viewElement.width) {
             x = viewElement.left.floatValue;
-        } else if (!viewElement.rightRef && viewElement.right) {
+            width = viewElement.width.floatValue;
+            autoresizing |= UIViewAutoresizingFlexibleRightMargin;
+
+        } else if (!viewElement.rightRef && viewElement.right && viewElement.width) {
+            width = viewElement.width.floatValue;
             x = superview.frame.size.width - viewElement.right.floatValue - width;
+            autoresizing |= UIViewAutoresizingFlexibleLeftMargin;
+
+        } else if (viewElement.left && viewElement.right) {
+            x = viewElement.left.floatValue;
+            width = CGRectGetWidth(superview.frame) - viewElement.left.floatValue - viewElement.right.floatValue;
+            autoresizing |= UIViewAutoresizingFlexibleWidth;
+        } else {
+            if (viewElement.left) {
+                x = viewElement.left.floatValue;
+                autoresizing |= UIViewAutoresizingFlexibleRightMargin;
+            } else if (viewElement.right) {
+                x = superview.frame.size.width - viewElement.right.floatValue - view.frame.size.width;
+                autoresizing |= UIViewAutoresizingFlexibleLeftMargin;
+            }
         }
     } else if (orientation == OSZExpressionOrientationVertical) {
+        if (!viewElement.topRef && viewElement.top && viewElement.height) {
+            y = viewElement.top.floatValue;
+            height = viewElement.height.floatValue;
+            autoresizing |= UIViewAutoresizingFlexibleBottomMargin;
+            
+        } else if (!viewElement.bottomRef && viewElement.bottom && viewElement.height) {
+            height = viewElement.height.floatValue;
+            y = superview.frame.size.width - viewElement.bottom.floatValue - height;
+            autoresizing |= UIViewAutoresizingFlexibleTopMargin;
+            
+        } else if (viewElement.top && viewElement.bottom) {
+            y = viewElement.top.floatValue;
+            height = CGRectGetWidth(superview.frame) - viewElement.top.floatValue - viewElement.bottom.floatValue;
+            autoresizing |= UIViewAutoresizingFlexibleHeight;
+        } else {
+            if (viewElement.top) {
+                y = viewElement.top.floatValue;
+                autoresizing |= UIViewAutoresizingFlexibleBottomMargin;
+            } else if (viewElement.bottom) {
+                y = superview.frame.size.height - viewElement.bottom.floatValue - view.frame.size.height;
+                autoresizing |= UIViewAutoresizingFlexibleTopMargin;
+            }
+        }
+
         if (viewElement.height) {
             height = viewElement.height.floatValue;
-        } else if ([viewElement isMetric]) {
-            height = [self metricWithName:viewElement.metricName metrics:metrics];
         } else if (viewElement.top && viewElement.bottom) {
             height = CGRectGetHeight(superview.frame) - viewElement.top.floatValue - viewElement.bottom.floatValue;
         } else if ([viewElement isDefault]) {
             height = view.frame.size.height;
-        }
-        
-        if (!viewElement.topRef && viewElement.top) {
-            y = viewElement.top.floatValue;
-        } else if (!viewElement.bottomRef && viewElement.bottom) {
-            y = superview.frame.size.height - viewElement.bottom.floatValue - height;
         }
     }
 
@@ -208,25 +235,7 @@ static const CGFloat DefaultInnerConnection = 5.0;
     NSLog(@"%@.frame = %@; (left=%@, right=%@, top=%@, bottom=%@)", viewElement.name, NSStringFromCGRect(frame),
           viewElement.left, viewElement.right, viewElement.top, viewElement.bottom);
     view.frame = frame;
-    
-    // autoresizing mask
-    if (orientation == OSZExpressionOrientationHorizontal) {
-        if (viewElement.left && viewElement.right) {
-            view.autoresizingMask |= UIViewAutoresizingFlexibleWidth;
-        } else if (viewElement.left) {
-            view.autoresizingMask |= UIViewAutoresizingFlexibleRightMargin;
-        } else if (viewElement.right) {
-            view.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin;
-        }
-    } else {
-        if (viewElement.top && viewElement.bottom) {
-            view.autoresizingMask |= UIViewAutoresizingFlexibleHeight;
-        } else if (viewElement.top) {
-            view.autoresizingMask |= UIViewAutoresizingFlexibleBottomMargin;
-        } else if (viewElement.bottom) {
-            view.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin;
-        }
-    }
+    view.autoresizingMask = autoresizing;
     
     // update view references
     if (viewElement.leftRef) {
