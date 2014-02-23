@@ -58,6 +58,19 @@ describe(@"OSZLayouter", ^{
             [[theValue(view.frame.size.height) should] equal:theValue(50)];
             [[theValue(view.autoresizingMask & UIViewAutoresizingFlexibleBottomMargin) should] equal:theValue(UIViewAutoresizingFlexibleBottomMargin)];
         });
+        
+        it(@"should layout V:[view]|", ^{
+            UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+            [superview addSubview:view];
+            
+            NSDictionary* views = NSDictionaryOfVariableBindings(view);
+            [layouter layoutWithVisualFormat:@"V:[view]|" metrics:nil views:views];
+
+            [[theValue(view.frame.origin.x) should] equal:theValue(0)];
+            [[theValue(view.frame.origin.y) should] equal:theValue(380)];
+            [[theValue(view.frame.size.height) should] equal:theValue(100)];
+            [[theValue(view.autoresizingMask & UIViewAutoresizingFlexibleTopMargin) should] equal:theValue(UIViewAutoresizingFlexibleTopMargin)];
+        });
     });
     
     context(@"Pin to both edge", ^{
