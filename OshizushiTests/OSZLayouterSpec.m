@@ -104,6 +104,40 @@ describe(@"OSZLayouter", ^{
             [[theValue(view2.frame.size.width) should] equal:theValue(100)];
             [[theValue(view2.autoresizingMask & UIViewAutoresizingFlexibleRightMargin) should] equal:theValue(UIViewAutoresizingFlexibleRightMargin)];
         });
+        
+        it(@"should layout |-5-[view(100)]-[view2]-|", ^{
+            UIView* view = [[UIView alloc] initWithFrame:CGRectZero];
+            
+            UIView* view2 = [[UIView alloc] initWithFrame:CGRectZero];
+            [superview addSubview:view2];
+            
+            NSDictionary* views = NSDictionaryOfVariableBindings(view, view2);
+            [layouter layoutWithVisualFormat:@"|-5-[view(100)]-5-[view2]-5-|" metrics:nil views:views];
+            
+            [[theValue(view.frame.origin.x) should] equal:theValue(5)];
+            [[theValue(view.frame.size.width) should] equal:theValue(100)];
+
+            [[theValue(view2.frame.origin.x) should] equal:theValue(110)];
+            [[theValue(view2.frame.size.width) should] equal:theValue(205)];
+            [[theValue(view2.autoresizingMask & UIViewAutoresizingFlexibleWidth) should] equal:theValue(UIViewAutoresizingFlexibleWidth)];
+        });
+        
+        it(@"should layout |-5-[view]-5-[view2(100)]-5-|", ^{
+            UIView* view = [[UIView alloc] initWithFrame:CGRectZero];
+            
+            UIView* view2 = [[UIView alloc] initWithFrame:CGRectZero];
+            [superview addSubview:view2];
+            
+            NSDictionary* views = NSDictionaryOfVariableBindings(view, view2);
+            [layouter layoutWithVisualFormat:@"|-5-[view]-5-[view2(100)]-5-|" metrics:nil views:views];
+            
+            [[theValue(view.frame.origin.x) should] equal:theValue(5)];
+            [[theValue(view.frame.size.width) should] equal:theValue(205)];
+            [[theValue(view.autoresizingMask & UIViewAutoresizingFlexibleWidth) should] equal:theValue(UIViewAutoresizingFlexibleWidth)];
+
+            [[theValue(view2.frame.origin.x) should] equal:theValue(215)];
+            [[theValue(view2.frame.size.width) should] equal:theValue(100)];
+        });
     });
 });
 

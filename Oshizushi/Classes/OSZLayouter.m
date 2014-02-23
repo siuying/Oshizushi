@@ -247,6 +247,10 @@ static const CGFloat DefaultInnerConnection = 5.0;
                 }
             }
         }
+        
+        if ([element isKindOfClass:[OSZView class]]) {
+            lastView = (OSZView*) element;
+        }
     }];
 }
 
