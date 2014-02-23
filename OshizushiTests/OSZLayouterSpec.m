@@ -125,7 +125,7 @@ describe(@"OSZLayouter", ^{
         it(@"should layout |-5-[view]-5-[view2(100)]-5-|", ^{
             UIView* view = [[UIView alloc] initWithFrame:CGRectZero];
             [superview addSubview:view];
-
+            
             UIView* view2 = [[UIView alloc] initWithFrame:CGRectZero];
             [superview addSubview:view2];
             
@@ -135,9 +135,34 @@ describe(@"OSZLayouter", ^{
             [[theValue(view.frame.origin.x) should] equal:theValue(12)];
             [[theValue(view.frame.size.width) should] equal:theValue(191)];
             [[theValue(view.autoresizingMask & UIViewAutoresizingFlexibleWidth) should] equal:theValue(UIViewAutoresizingFlexibleWidth)];
-
+            
             [[theValue(view2.frame.origin.x) should] equal:theValue(208)];
             [[theValue(view2.frame.size.width) should] equal:theValue(100)];
+        });
+        
+        
+        it(@"should layout |-5-[E]-5-[F(50)]-5-[G(>0)]-5-|", ^{
+            UIView* E = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+            [superview addSubview:E];
+            
+            UIView* F = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
+            [superview addSubview:F];
+            
+            UIView* G = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+            [superview addSubview:G];
+            
+            NSDictionary* views = NSDictionaryOfVariableBindings(E, F, G);
+            [layouter layoutWithVisualFormat:@"|-5-[E]-5-[F(50)]-5-[G(>0)]-5-|" metrics:nil views:views];
+            
+            [[theValue(E.frame.origin.x) should] equal:theValue(5)];
+            [[theValue(E.frame.size.width) should] equal:theValue(30)];
+
+            [[theValue(F.frame.origin.x) should] equal:theValue(40)];
+            [[theValue(F.frame.size.width) should] equal:theValue(50)];
+            
+            [[theValue(G.frame.origin.x) should] equal:theValue(95)];
+            [[theValue(G.frame.size.width) should] equal:theValue(220)];
+
         });
     });
 });

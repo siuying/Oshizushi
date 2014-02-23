@@ -14,6 +14,7 @@
 
 #import "OSZParser.h"
 #import "OSZView.h"
+#import "OSZPredicate.h"
 
 #import "ObjectiveSugar.h"
 
@@ -115,7 +116,7 @@ static const CGFloat DefaultInnerConnection = 5.0;
                     view.leftRef = referencedView.name;
                 }
                 
-                if ([view isConstant] || [view isMetric]) {
+                if (([view isConstant] && (view.predicate.relation == OSZPredicateRelationEqual)) || [view isMetric]) {
                     view.width = [view isConstant] ? @(view.constant) : @([self metricWithName:view.metricName metrics:metrics]);
                     if (position) {
                         position = @(position.floatValue + view.width.floatValue);
@@ -138,7 +139,7 @@ static const CGFloat DefaultInnerConnection = 5.0;
                     view.topRef = referencedView.name;
                 }
                 
-                if ([view isConstant] || [view isMetric]) {
+                if (([view isConstant] && (view.predicate.relation == OSZPredicateRelationEqual)) || [view isMetric]) {
                     view.height = [view isConstant] ? @(view.constant) : @([self metricWithName:view.metricName metrics:metrics]);
                     if (position) {
                         position = @(position.floatValue + view.height.floatValue);
