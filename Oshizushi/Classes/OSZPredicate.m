@@ -20,7 +20,7 @@
     static Rx* predicateRx;
     dispatch_once(&onceToken, ^{
         predicateRx = RX(@"^"
-                         @"(==|>=|<=)?"
+                         @"(>|<|==|>=|<=)?"
                          @"([0-9]+|[0-9a-zA-Z]+)"
                          @"(@([0-9]{1,4}))?"
                          @"$");
@@ -75,11 +75,11 @@
 
 +(OSZPredicateRelation) relationWithString:(NSString*)relationString
 {
-    if ([relationString isEqualToString:@">="]) {
+    if ([relationString isEqualToString:@">="] || [relationString isEqualToString:@">"]) {
         return OSZPredicateRelationGreaterThanOrEqualTo;
     }
 
-    if ([relationString isEqualToString:@"<="]) {
+    if ([relationString isEqualToString:@"<="] || [relationString isEqualToString:@"<"]) {
         return OSZPredicateRelationLessThanOrEqualTo;
     }
 

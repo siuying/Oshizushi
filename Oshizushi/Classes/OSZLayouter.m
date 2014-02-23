@@ -55,10 +55,19 @@ static const CGFloat DefaultInnerConnection = 5.0;
     }];
     
     NSArray* viewElements = [[viewElementMappings allValues] sortedArrayUsingComparator:^NSComparisonResult(OSZView* view1, OSZView* view2) {
-        if ([[view1 references] containsObject:view2.name]) {
+        BOOL view1ReferenceView2 = [[view1 references] containsObject:view2.name];
+        BOOL view2ReferenceView1 = [[view2 references] containsObject:view1.name];
+        if (view1ReferenceView2 && view2ReferenceView1) {
+            if ([view1 isDefault] && [view2 isDefault]) {
+                return NSOrderedSame;
+            } else if ([view1 isDefault]) {
+                return NSOrderedAscending;
+            } else if ([view2 isDefault]) {
+                return NSOrderedDescending;
+            }
+        } else if (view1ReferenceView2) {
             return NSOrderedAscending;
-        }
-        if ([[view2 references] containsObject:view1.name]) {
+        } else if (view1ReferenceView2) {
             return NSOrderedDescending;
         }
         return NSOrderedSame;
@@ -185,8 +194,13 @@ static const CGFloat DefaultInnerConnection = 5.0;
             autoresizing |= UIViewAutoresizingFlexibleLeftMargin;
 
         } else if (viewElement.left && viewElement.right) {
-            x = viewElement.left.floatValue;
-            width = CGRectGetWidth(superview.frame) - viewElement.left.floatValue - viewElement.right.floatValue;
+            UIView* leftRefView = viewElement.leftRef ? [self viewWithName:viewElement.leftRef views:views] : nil;
+            UIView* rightRefView = viewElement.rightRef ? [self viewWithName:viewElement.rightRef views:views] : nil;
+            CGFloat leftPadding = leftRefView.frame.origin.x + leftRefView.frame.size.width;
+            CGFloat rightPadding = rightRefView.frame.origin.x;
+
+            x = leftPadding + viewElement.left.floatValue;
+            width = CGRectGetWidth(superview.frame) - x - rightPadding - viewElement.right.floatValue;
             autoresizing |= UIViewAutoresizingFlexibleWidth;
         } else {
             if (viewElement.left) {
@@ -209,9 +223,15 @@ static const CGFloat DefaultInnerConnection = 5.0;
             autoresizing |= UIViewAutoresizingFlexibleTopMargin;
             
         } else if (viewElement.top && viewElement.bottom) {
-            y = viewElement.top.floatValue;
-            height = CGRectGetWidth(superview.frame) - viewElement.top.floatValue - viewElement.bottom.floatValue;
+            UIView* topRefView = viewElement.topRef ? [self viewWithName:viewElement.topRef views:views] : nil;
+            UIView* bottomRefView = viewElement.bottomRef ? [self viewWithName:viewElement.bottomRef views:views] : nil;
+            CGFloat topPadding = topRefView.frame.origin.x + topRefView.frame.size.width;
+            CGFloat bottomPadding = bottomRefView.frame.origin.x;
+
+            y = topPadding + viewElement.top.floatValue;
+            height = CGRectGetWidth(superview.frame) - y - bottomPadding - viewElement.bottom.floatValue;
             autoresizing |= UIViewAutoresizingFlexibleHeight;
+
         } else {
             if (viewElement.top) {
                 y = viewElement.top.floatValue;
