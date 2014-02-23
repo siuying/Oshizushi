@@ -44,10 +44,22 @@ static const CGFloat DefaultInnerConnection = 5.0;
 
     [self calculateLayoutWithExpression:expression metrics:metrics views:views reversed:NO];
     [self calculateLayoutWithExpression:expression metrics:metrics views:views reversed:YES];
-
-    [[elements select:^BOOL(id object) {
+    
+    NSArray* viewElements = [elements select:^BOOL(id object) {
         return [object isKindOfClass:[OSZView class]];
-    }] eachWithIndex:^(OSZView* view, NSUInteger index) {
+    }];
+    
+    viewElements = [viewElements sortedArrayUsingComparator:^NSComparisonResult(OSZView* view1, OSZView* view2) {
+        if ([[view1 references] containsObject:view2.name]) {
+            return NSOrderedAscending;
+        }
+        if ([[view2 references] containsObject:view1.name]) {
+            return NSOrderedDescending;
+        }
+        return NSOrderedSame;
+    }];
+
+    [viewElements eachWithIndex:^(OSZView* view, NSUInteger index) {
         [self layoutViewWithViewElement:view orientation:expression.orientation metrics:metrics views:views];
     }];
 }
@@ -58,7 +70,7 @@ static const CGFloat DefaultInnerConnection = 5.0;
 {
     OSZExpressionOrientation orientation = expression.orientation;
     __block NSNumber* position = nil;
-    __block OSZView* lastView = nil;
+    __block OSZView* referencedView = nil;
     NSArray* elements = reversed ? [[expression elements] reverse] : [expression elements];
 
     if ((expression.pinToLeadingSuperview && !reversed) ||
@@ -85,6 +97,8 @@ static const CGFloat DefaultInnerConnection = 5.0;
                         } else {
                             element.width = @(DefaultInnerConnection);
                         }
+                    } else if ([element isKindOfClass:[OSZView class]]) {
+                        referencedView = (OSZView*) element;
                     }
                     
                     if (element.width && element.right) {
@@ -108,6 +122,8 @@ static const CGFloat DefaultInnerConnection = 5.0;
                         } else {
                             element.width = @(DefaultInnerConnection);
                         }
+                    } else if ([element isKindOfClass:[OSZView class]]) {
+                        referencedView = (OSZView*) element;
                     }
                     
                     if (element.width && element.left) {
@@ -133,6 +149,8 @@ static const CGFloat DefaultInnerConnection = 5.0;
                         } else {
                             element.height = @(DefaultInnerConnection);
                         }
+                    } else if ([element isKindOfClass:[OSZView class]]) {
+                        referencedView = (OSZView*) element;
                     }
                     
                     if (element.height && element.bottom) {
@@ -156,6 +174,8 @@ static const CGFloat DefaultInnerConnection = 5.0;
                         } else {
                             element.height = @(DefaultInnerConnection);
                         }
+                    } else if ([element isKindOfClass:[OSZView class]]) {
+                        referencedView = (OSZView*) element;
                     }
 
                     if (element.height && element.top) {
@@ -172,13 +192,15 @@ static const CGFloat DefaultInnerConnection = 5.0;
                 if (reversed) {
                     // position
                     element.right = position;
-                    element.rightRef = lastView.name;
+                    element.rightRef = referencedView.name;
 
                     // size
                     if ([element isConstant]) {
                         element.width = @(element.constant);
                     } else if ([element isMetric]) {
                         element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                    } else if ([element isKindOfClass:[OSZView class]]) {
+                        referencedView = (OSZView*) element;
                     }
                     
                     if (element.width && element.right) {
@@ -190,13 +212,15 @@ static const CGFloat DefaultInnerConnection = 5.0;
                 } else {
                     // position
                     element.left = position;
-                    element.leftRef = lastView.name;
+                    element.leftRef = referencedView.name;
 
                     // size
                     if ([element isConstant]) {
                         element.width = @(element.constant);
                     } else if ([element isMetric]) {
                         element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                    } else if ([element isKindOfClass:[OSZView class]]) {
+                        referencedView = (OSZView*) element;
                     }
                     
                     if (element.width && element.left) {
@@ -210,13 +234,15 @@ static const CGFloat DefaultInnerConnection = 5.0;
                 if (reversed) {
                     // position
                     element.bottom = position;
-                    element.bottomRef = lastView.name;
+                    element.bottomRef = referencedView.name;
                     
                     // size
                     if ([element isConstant]) {
                         element.height = @(element.constant);
                     } else if ([element isMetric]) {
                         element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    } else if ([element isKindOfClass:[OSZView class]]) {
+                        referencedView = (OSZView*) element;
                     }
                     
                     if (element.height && element.bottom) {
@@ -229,13 +255,15 @@ static const CGFloat DefaultInnerConnection = 5.0;
                 } else {
                     // position
                     element.top = position;
-                    element.topRef = lastView.name;
+                    element.topRef = referencedView.name;
                     
                     // size
                     if ([element isConstant]) {
                         element.height = @(element.constant);
                     } else if ([element isMetric]) {
                         element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    } else if ([element isKindOfClass:[OSZView class]]) {
+                        referencedView = (OSZView*) element;
                     }
                     
                     if (element.height && element.top) {
@@ -247,10 +275,6 @@ static const CGFloat DefaultInnerConnection = 5.0;
                 }
             }
         }
-        
-        if ([element isKindOfClass:[OSZView class]]) {
-            lastView = (OSZView*) element;
-        }
     }];
 }
 
@@ -260,10 +284,12 @@ static const CGFloat DefaultInnerConnection = 5.0;
     UIView* superview = [view superview];
 
     // layout frame
-    CGFloat x = view.frame.origin.x;//viewElement.left ? [viewElement.left floatValue] : view.frame.origin.x;
-    CGFloat y = view.frame.origin.y;//viewElement.top ? [viewElement.top floatValue] : view.frame.origin.y;
+    CGFloat x = view.frame.origin.x;
+    CGFloat y = view.frame.origin.y;
     CGFloat width = view.frame.size.width;
     CGFloat height = view.frame.size.height;
+    
+    NSLog(@"references: %@", [viewElement references]);
     
     if (orientation == OSZExpressionOrientationHorizontal) {
         if (viewElement.left && viewElement.right) {
@@ -317,6 +343,11 @@ static const CGFloat DefaultInnerConnection = 5.0;
         } else if (viewElement.bottom) {
             view.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin;
         }
+    }
+    
+    // update view references
+    if (viewElement.leftRef) {
+        
     }
 }
 

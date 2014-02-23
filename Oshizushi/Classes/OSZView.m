@@ -45,4 +45,22 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
     return [NSString stringWithFormat:@"%@", self.name];
 }
 
+-(NSArray*) references
+{
+    NSMutableArray* references = [NSMutableArray array];
+    if (self.topRef) {
+        [references addObject:self.topRef];
+    }
+    if (self.rightRef) {
+        [references addObject:self.rightRef];
+    }
+    if (self.bottomRef) {
+        [references addObject:self.bottomRef];
+    }
+    if (self.leftRef) {
+        [references addObject:self.leftRef];
+    }
+    return references;
+}
+
 @end

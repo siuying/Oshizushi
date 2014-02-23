@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) OSZPredicate* predicate;
 
+-(NSArray*) references;
+
 -(NSInteger) constant;
 
 -(NSString*) metricName;
