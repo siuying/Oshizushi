@@ -102,6 +102,7 @@ describe(@"OSZLayouter", ^{
 
             [[theValue(view2.frame.origin.x) should] equal:theValue(110)];
             [[theValue(view2.frame.size.width) should] equal:theValue(100)];
+            [[theValue(view2.autoresizingMask & UIViewAutoresizingFlexibleRightMargin) should] equal:theValue(UIViewAutoresizingFlexibleRightMargin)];
         });
     });
 });

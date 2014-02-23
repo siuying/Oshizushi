@@ -59,7 +59,7 @@ static const CGFloat DefaultInnerConnection = 5.0;
     OSZExpressionOrientation orientation = expression.orientation;
     __block NSNumber* position = nil;
     __block OSZView* lastView = nil;
-    NSArray* elements = [expression elements];
+    NSArray* elements = reversed ? [[expression elements] reverse] : [expression elements];
 
     if ((expression.pinToLeadingSuperview && !reversed) ||
         (expression.pinToTrailingSuperview && reversed)) {
@@ -86,7 +86,13 @@ static const CGFloat DefaultInnerConnection = 5.0;
                             element.width = @(DefaultInnerConnection);
                         }
                     }
-
+                    
+                    if (element.width && element.right) {
+                        position = @(element.right.floatValue + element.width.floatValue);
+                    } else {
+                        NSLog(@"position of next element not set");
+                        position = nil;
+                    }
                 } else {
                     // position
                     element.left = position;
@@ -102,6 +108,13 @@ static const CGFloat DefaultInnerConnection = 5.0;
                         } else {
                             element.width = @(DefaultInnerConnection);
                         }
+                    }
+                    
+                    if (element.width && element.left) {
+                        position = @(element.left.floatValue + element.width.floatValue);
+                    } else {
+                        NSLog(@"position of next element not set");
+                        position = nil;
                     }
                 }
             } else if (orientation == OSZExpressionOrientationVertical) {
@@ -121,6 +134,13 @@ static const CGFloat DefaultInnerConnection = 5.0;
                             element.height = @(DefaultInnerConnection);
                         }
                     }
+                    
+                    if (element.height && element.bottom) {
+                        position = @(element.bottom.floatValue + element.height.floatValue);
+                    } else {
+                        NSLog(@"position of next element not set");
+                        position = nil;
+                    }
                 } else {
                     // position
                     element.top = position;
@@ -137,75 +157,92 @@ static const CGFloat DefaultInnerConnection = 5.0;
                             element.height = @(DefaultInnerConnection);
                         }
                     }
+
+                    if (element.height && element.top) {
+                        position = @(element.top.floatValue + element.height.floatValue);
+                    } else {
+                        NSLog(@"position of next element not set");
+                        position = nil;
+                    }
                 }
             }
             
         } else {
-            OSZElement* lastElement = [elements objectAtIndex:idx-1];
             if (orientation == OSZExpressionOrientationHorizontal) {
                 if (reversed) {
                     // position
-                    if (lastElement.width && lastElement.right) {
-                        element.right = @(position.integerValue + lastElement.width.integerValue);
-                        element.rightRef = lastView.name;
-                    } else {
-                        element.rightRef = lastView.name;
-                    }
+                    element.right = position;
+                    element.rightRef = lastView.name;
 
                     // size
                     if ([element isConstant]) {
                         element.width = @(element.constant);
                     } else if ([element isMetric]) {
                         element.width = @([self metricWithName:element.metricName metrics:metrics]);
-                    }
-
-                } else {
-                    // position
-                    if (lastElement.width && lastElement.left) {
-                        element.left = @(position.integerValue + lastElement.width.integerValue);
-                        element.leftRef = lastView.name;
-                    } else {
-                        element.leftRef = lastView.name;
                     }
                     
+                    if (element.width && element.right) {
+                        position = @(element.right.floatValue + element.width.floatValue);
+                    } else {
+                        NSLog(@"position of next element not set");
+                        position = nil;
+                    }
+                } else {
+                    // position
+                    element.left = position;
+                    element.leftRef = lastView.name;
+
                     // size
                     if ([element isConstant]) {
                         element.width = @(element.constant);
                     } else if ([element isMetric]) {
                         element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
+                    
+                    if (element.width && element.left) {
+                        position = @(element.left.floatValue + element.width.floatValue);
+                    } else {
+                        NSLog(@"position of next element not set");
+                        position = nil;
                     }
                 }
             } else if (orientation == OSZExpressionOrientationVertical) {
                 if (reversed) {
                     // position
-                    if (lastElement.height && lastElement.bottom) {
-                        element.bottom = @(position.integerValue + lastElement.height.integerValue);
-                        element.bottomRef = lastView.name;
-                    } else {
-                        element.bottomRef = lastView.name;
-                    }
+                    element.bottom = position;
+                    element.bottomRef = lastView.name;
                     
                     // size
                     if ([element isConstant]) {
                         element.height = @(element.constant);
                     } else if ([element isMetric]) {
                         element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
+                    
+                    if (element.height && element.bottom) {
+                        position = @(element.height.floatValue + element.bottom.floatValue);
+                    } else {
+                        NSLog(@"position of next element not set");
+                        position = nil;
                     }
 
                 } else {
                     // position
-                    if (lastElement.height && lastElement.top) {
-                        element.top = @(position.integerValue + lastElement.height.integerValue);
-                        element.topRef = lastView.name;
-                    } else {
-                        element.topRef = lastView.name;
-                    }
+                    element.top = position;
+                    element.topRef = lastView.name;
                     
                     // size
                     if ([element isConstant]) {
                         element.height = @(element.constant);
                     } else if ([element isMetric]) {
                         element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
+                    
+                    if (element.height && element.top) {
+                        position = @(element.height.floatValue + element.top.floatValue);
+                    } else {
+                        NSLog(@"position of next element not set");
+                        position = nil;
                     }
                 }
             }
