@@ -156,13 +156,31 @@ describe(@"OSZLayouter", ^{
             
             [[theValue(E.frame.origin.x) should] equal:theValue(10)];
             [[theValue(E.frame.size.width) should] equal:theValue(90)];
-
+            
             [[theValue(F.frame.origin.x) should] equal:theValue(105)];
             [[theValue(F.frame.size.width) should] equal:theValue(100)];
             
             [[theValue(G.frame.origin.x) should] equal:theValue(210)];
             [[theValue(G.frame.size.width) should] equal:theValue(100)];
-
+            
+        });
+        
+        it(@"should layout |-10-[E]-5-[G(>0)]-10-|", ^{
+            UIView* E = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+            [superview addSubview:E];
+            
+            UIView* G = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+            [superview addSubview:G];
+            
+            NSDictionary* views = NSDictionaryOfVariableBindings(E, G);
+            [layouter layoutWithVisualFormat:@"|-10-[E]-5-[G(>0)]-10-|" metrics:nil views:views];
+            
+            [[theValue(E.frame.origin.x) should] equal:theValue(10)];
+            [[theValue(E.frame.size.width) should] equal:theValue(30)];
+            
+            [[theValue(G.frame.origin.x) should] equal:theValue(35)];
+            [[theValue(G.frame.size.width) should] equal:theValue(275)];
+            
         });
     });
 });
