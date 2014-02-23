@@ -41,8 +41,9 @@ static const CGFloat DefaultEdgeConnection = 10.0;
     NSArray* elements = [expression elements];
     DDLogDebug(@"views: %@", elements);
 
-    [self calculateLayoutWithExpression:expression metrics:metrics views:views];
-    
+    [self calculateLayoutWithExpression:expression metrics:metrics views:views reversed:NO];
+    [self calculateLayoutWithExpression:expression metrics:metrics views:views reversed:YES];
+
     [[elements select:^BOOL(id object) {
         return [object isKindOfClass:[OSZView class]];
     }] eachWithIndex:^(OSZView* view, NSUInteger index) {
@@ -52,14 +53,15 @@ static const CGFloat DefaultEdgeConnection = 10.0;
 
 #pragma mark - 
 
--(void) calculateLayoutWithExpression:(OSZExpression*)expression metrics:(NSDictionary*)metrics views:(NSDictionary*)views
+-(void) calculateLayoutWithExpression:(OSZExpression*)expression metrics:(NSDictionary*)metrics views:(NSDictionary*)views reversed:(BOOL)reversed
 {
     OSZExpressionOrientation orientation = expression.orientation;
     __block NSNumber* position = nil;
     __block OSZView* lastView = nil;
     NSArray* elements = [expression elements];
 
-    if (expression.pinToLeadingSuperview) {
+    if ((expression.pinToLeadingSuperview && !reversed) ||
+        (expression.pinToTrailingSuperview && reversed)) {
         position = @0;
     }
 
@@ -67,58 +69,119 @@ static const CGFloat DefaultEdgeConnection = 10.0;
         DDLogInfo(@"processing element: %@", element);
         if (idx == 0) {
             if (orientation == OSZExpressionOrientationHorizontal) {
-                // position
-                element.left = position;
-                
-                // size
-                if ([element isConstant]) {
-                    element.width = @(element.constant);
-                } else if ([element isMetric]) {
-                    element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                if (reversed) {
+                    // position
+                    element.right = position;
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.width = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
+
+                } else {
+                    // position
+                    element.left = position;
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.width = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
                 }
             } else if (orientation == OSZExpressionOrientationVertical) {
-                // position
-                element.top = position;
-                
-                // size
-                if ([element isConstant]) {
-                    element.height = @(element.constant);
-                } else if ([element isMetric]) {
-                    element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                if (reversed) {
+                    // position
+                    element.bottom = position;
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.height = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
+                } else {
+                    // position
+                    element.top = position;
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.height = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
                 }
             }
             
         } else {
             OSZElement* lastElement = [elements objectAtIndex:idx-1];
             if (orientation == OSZExpressionOrientationHorizontal) {
-                // position
-                if (lastElement.width) {
-                    element.left = @(position.integerValue + lastElement.width.integerValue);
-                    element.leftRef = lastView.name;
+                if (reversed) {
+                    // position
+                    if (lastElement.width && lastElement.right) {
+                        element.right = @(position.integerValue + lastElement.width.integerValue);
+                        element.rightRef = lastView.name;
+                    } else {
+                        element.rightRef = lastView.name;
+                    }
+
+                    // size
+                    if ([element isConstant]) {
+                        element.width = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
+
                 } else {
-                    element.leftRef = lastView.name;
-                }
-                
-                // size
-                if ([element isConstant]) {
-                    element.width = @(element.constant);
-                } else if ([element isMetric]) {
-                    element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                    // position
+                    if (lastElement.width && lastElement.left) {
+                        element.left = @(position.integerValue + lastElement.width.integerValue);
+                        element.leftRef = lastView.name;
+                    } else {
+                        element.leftRef = lastView.name;
+                    }
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.width = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.width = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
                 }
             } else if (orientation == OSZExpressionOrientationVertical) {
-                // position
-                if (lastElement.height) {
-                    element.top = @(position.integerValue + lastElement.height.integerValue);
-                    element.topRef = lastView.name;
+                if (reversed) {
+                    // position
+                    if (lastElement.height && lastElement.bottom) {
+                        element.bottom = @(position.integerValue + lastElement.height.integerValue);
+                        element.bottomRef = lastView.name;
+                    } else {
+                        element.bottomRef = lastView.name;
+                    }
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.height = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
+
                 } else {
-                    element.topRef = lastView.name;
-                }
-                
-                // size
-                if ([element isConstant]) {
-                    element.height = @(element.constant);
-                } else if ([element isMetric]) {
-                    element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    // position
+                    if (lastElement.height && lastElement.top) {
+                        element.top = @(position.integerValue + lastElement.height.integerValue);
+                        element.topRef = lastView.name;
+                    } else {
+                        element.topRef = lastView.name;
+                    }
+                    
+                    // size
+                    if ([element isConstant]) {
+                        element.height = @(element.constant);
+                    } else if ([element isMetric]) {
+                        element.height = @([self metricWithName:element.metricName metrics:metrics]);
+                    }
                 }
             }
         }
@@ -128,13 +191,29 @@ static const CGFloat DefaultEdgeConnection = 10.0;
 -(void) layoutViewWithViewElement:(OSZView*)viewElement metrics:(NSDictionary*)metrics views:(NSDictionary*)views
 {
     UIView* view = [self viewWithName:viewElement.name views:views];
+    UIView* superview = [view superview];
 
     // layout frame
     CGFloat x = viewElement.left ? [viewElement.left floatValue] : view.frame.origin.x;
     CGFloat y = viewElement.top ? [viewElement.top floatValue] : view.frame.origin.y;
-    CGFloat width = viewElement.width ? [viewElement.width floatValue] : view.frame.size.width;
-    CGFloat height = viewElement.height ? [viewElement.height floatValue] : view.frame.size.height;
-    view.frame = CGRectMake(x, y, width, height);
+    CGFloat width = view.frame.size.width;
+    CGFloat height = view.frame.size.height;
+    
+    if (viewElement.left && viewElement.right) {
+        width = superview.frame.size.width - viewElement.right.floatValue - viewElement.left.floatValue;
+    } else if (viewElement.width) {
+        width = viewElement.width.floatValue;
+    }
+    if (viewElement.top && viewElement.bottom) {
+        height = superview.frame.size.height - viewElement.bottom.floatValue - viewElement.top.floatValue;
+    } else if (viewElement.height) {
+        height = viewElement.height.floatValue;
+    }
+    
+    CGRect frame = CGRectMake(x, y, width, height);
+    NSLog(@"%@.frame = %@; (left=%@, right=%@, top=%@, bottom=%@)", viewElement.name, NSStringFromCGRect(frame),
+          viewElement.left, viewElement.right, viewElement.top, viewElement.bottom);
+    view.frame = frame;
     
     // autoresizing mask
     if (viewElement.top && viewElement.height) {
