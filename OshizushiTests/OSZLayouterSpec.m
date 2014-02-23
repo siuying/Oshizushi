@@ -62,7 +62,7 @@ describe(@"OSZLayouter", ^{
         it(@"should layout V:[view]|", ^{
             UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
             [superview addSubview:view];
-            
+
             NSDictionary* views = NSDictionaryOfVariableBindings(view);
             [layouter layoutWithVisualFormat:@"V:[view]|" metrics:nil views:views];
 
@@ -122,7 +122,7 @@ describe(@"OSZLayouter", ^{
             [[theValue(view2.autoresizingMask & UIViewAutoresizingFlexibleWidth) should] equal:theValue(UIViewAutoresizingFlexibleWidth)];
         });
         
-        it(@"should layout |-5-[view]-5-[view2(100)]-5-|", ^{
+        it(@"should layout |-12-[view]-5-[view2(100)]-12-|", ^{
             UIView* view = [[UIView alloc] initWithFrame:CGRectZero];
             [superview addSubview:view];
             
@@ -141,7 +141,7 @@ describe(@"OSZLayouter", ^{
         });
         
         
-        it(@"should layout |-5-[E]-5-[F(50)]-5-[G(>0)]-5-|", ^{
+        it(@"should layout |-10-[E]-5-[F(50)]-5-[G(100)]-10-|", ^{
             UIView* E = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
             [superview addSubview:E];
             
@@ -152,16 +152,16 @@ describe(@"OSZLayouter", ^{
             [superview addSubview:G];
             
             NSDictionary* views = NSDictionaryOfVariableBindings(E, F, G);
-            [layouter layoutWithVisualFormat:@"|-5-[E]-5-[F(50)]-5-[G(>0)]-5-|" metrics:nil views:views];
+            [layouter layoutWithVisualFormat:@"|-10-[E]-5-[F(100)]-5-[G(100)]-10-|" metrics:nil views:views];
             
-            [[theValue(E.frame.origin.x) should] equal:theValue(5)];
-            [[theValue(E.frame.size.width) should] equal:theValue(30)];
+            [[theValue(E.frame.origin.x) should] equal:theValue(10)];
+            [[theValue(E.frame.size.width) should] equal:theValue(90)];
 
-            [[theValue(F.frame.origin.x) should] equal:theValue(40)];
-            [[theValue(F.frame.size.width) should] equal:theValue(50)];
+            [[theValue(F.frame.origin.x) should] equal:theValue(105)];
+            [[theValue(F.frame.size.width) should] equal:theValue(100)];
             
-            [[theValue(G.frame.origin.x) should] equal:theValue(95)];
-            [[theValue(G.frame.size.width) should] equal:theValue(220)];
+            [[theValue(G.frame.origin.x) should] equal:theValue(210)];
+            [[theValue(G.frame.size.width) should] equal:theValue(100)];
 
         });
     });
