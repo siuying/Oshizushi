@@ -173,6 +173,8 @@ static const CGFloat DefaultInnerConnection = 5.0;
     if (orientation == OSZExpressionOrientationHorizontal) {
         if (viewElement.width) {
             width = viewElement.width.floatValue;
+        } else if ([viewElement isMetric]) {
+            width = [self metricWithName:viewElement.metricName metrics:metrics];
         } else if (viewElement.left && viewElement.right) {
             width = CGRectGetWidth(superview.frame) - viewElement.left.floatValue - viewElement.right.floatValue;
         } else if ([viewElement isDefault]) {
@@ -187,6 +189,8 @@ static const CGFloat DefaultInnerConnection = 5.0;
     } else if (orientation == OSZExpressionOrientationVertical) {
         if (viewElement.height) {
             height = viewElement.height.floatValue;
+        } else if ([viewElement isMetric]) {
+            height = [self metricWithName:viewElement.metricName metrics:metrics];
         } else if (viewElement.top && viewElement.bottom) {
             height = CGRectGetHeight(superview.frame) - viewElement.top.floatValue - viewElement.bottom.floatValue;
         } else if ([viewElement isDefault]) {
