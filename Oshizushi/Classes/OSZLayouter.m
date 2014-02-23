@@ -107,13 +107,51 @@ static const CGFloat DefaultEdgeConnection = 10.0;
                         element.height = @([self metricWithName:element.metricName metrics:metrics]);
                     }
                 }
-
             }
         }];
     };
 
     processElements(elements);
+    
+    [[elements select:^BOOL(id object) {
+        return [object isKindOfClass:[OSZView class]];
+    }] eachWithIndex:^(OSZView* view, NSUInteger index) {
+        [self layoutWithViewElement:view metrics:metrics views:views];
+    }];
 }
+
+#pragma mark - 
+
+-(void) layoutWithViewElement:(OSZView*)viewElement metrics:(NSDictionary*)metrics views:(NSDictionary*)views
+{
+    UIView* view = [self viewWithName:viewElement.name views:views];
+
+    // layout frame
+    CGFloat x = viewElement.left ? [viewElement.left floatValue] : view.frame.origin.x;
+    CGFloat y = viewElement.top ? [viewElement.top floatValue] : view.frame.origin.y;
+    CGFloat width = viewElement.width ? [viewElement.width floatValue] : view.frame.size.width;
+    CGFloat height = viewElement.height ? [viewElement.height floatValue] : view.frame.size.height;
+    view.frame = CGRectMake(x, y, width, height);
+    
+    // autoresizing mask
+    if (viewElement.top && viewElement.height) {
+        view.autoresizingMask |= UIViewAutoresizingFlexibleBottomMargin;
+    } else if (viewElement.bottom && viewElement.height) {
+        view.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin;
+    } else if (viewElement.top && viewElement.bottom) {
+        view.autoresizingMask |= UIViewAutoresizingFlexibleHeight;
+    }
+
+    if (viewElement.left && viewElement.width) {
+        view.autoresizingMask |= UIViewAutoresizingFlexibleRightMargin;
+    } else if (viewElement.right && viewElement.width) {
+        view.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin;
+    } else if (viewElement.left && viewElement.right) {
+        view.autoresizingMask |= UIViewAutoresizingFlexibleWidth;
+    }
+}
+
+#pragma mark - Metrics and Views
 
 -(UIView*) viewWithName:(NSString*)name views:(NSDictionary*)views {
     if ([views hasKey:name]) {
