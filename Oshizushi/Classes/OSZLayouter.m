@@ -48,7 +48,7 @@ static const CGFloat DefaultInnerConnection = 5.0;
     [[elements select:^BOOL(id object) {
         return [object isKindOfClass:[OSZView class]];
     }] eachWithIndex:^(OSZView* view, NSUInteger index) {
-        [self layoutViewWithViewElement:view metrics:metrics views:views];
+        [self layoutViewWithViewElement:view orientation:expression.orientation metrics:metrics views:views];
     }];
 }
 
@@ -254,7 +254,7 @@ static const CGFloat DefaultInnerConnection = 5.0;
     }];
 }
 
--(void) layoutViewWithViewElement:(OSZView*)viewElement metrics:(NSDictionary*)metrics views:(NSDictionary*)views
+-(void) layoutViewWithViewElement:(OSZView*)viewElement orientation:(OSZExpressionOrientation)orientation metrics:(NSDictionary*)metrics views:(NSDictionary*)views
 {
     UIView* view = [self viewWithName:viewElement.name views:views];
     UIView* superview = [view superview];
@@ -265,32 +265,34 @@ static const CGFloat DefaultInnerConnection = 5.0;
     CGFloat width = view.frame.size.width;
     CGFloat height = view.frame.size.height;
     
-    if (viewElement.left && viewElement.right) {
-        width = superview.frame.size.width - viewElement.right.floatValue - viewElement.left.floatValue;
-    } else if (viewElement.width) {
-        width = viewElement.width.floatValue;
-    } else if ([viewElement isDefault]) {
-        width = view.frame.size.width;
-    }
-
-    if (viewElement.top && viewElement.bottom) {
-        height = superview.frame.size.height - viewElement.bottom.floatValue - viewElement.top.floatValue;
-    } else if (viewElement.height) {
-        height = viewElement.height.floatValue;
-    } else if ([viewElement isDefault]) {
-        height = view.frame.size.height;
-    }
-    
-    if (viewElement.left) {
-        x = viewElement.left.floatValue;
-    } else if (viewElement.right) {
-        x = superview.frame.size.width - viewElement.right.floatValue - width;
-    }
-    
-    if (viewElement.top) {
-        y = viewElement.top.floatValue;
-    } else if (viewElement.bottom) {
-        y = superview.frame.size.height - viewElement.bottom.floatValue - height;
+    if (orientation == OSZExpressionOrientationHorizontal) {
+        if (viewElement.left && viewElement.right) {
+            width = superview.frame.size.width - viewElement.right.floatValue - viewElement.left.floatValue;
+        } else if (viewElement.width) {
+            width = viewElement.width.floatValue;
+        } else if ([viewElement isDefault]) {
+            width = view.frame.size.width;
+        }
+        
+        if (viewElement.left) {
+            x = viewElement.left.floatValue;
+        } else if (viewElement.right) {
+            x = superview.frame.size.width - viewElement.right.floatValue - width;
+        }
+    } else if (orientation == OSZExpressionOrientationVertical) {
+        if (viewElement.top && viewElement.bottom) {
+            height = superview.frame.size.height - viewElement.bottom.floatValue - viewElement.top.floatValue;
+        } else if (viewElement.height) {
+            height = viewElement.height.floatValue;
+        } else if ([viewElement isDefault]) {
+            height = view.frame.size.height;
+        }
+        
+        if (viewElement.top) {
+            y = viewElement.top.floatValue;
+        } else if (viewElement.bottom) {
+            y = superview.frame.size.height - viewElement.bottom.floatValue - height;
+        }
     }
 
     CGRect frame = CGRectMake(x, y, width, height);
@@ -299,20 +301,22 @@ static const CGFloat DefaultInnerConnection = 5.0;
     view.frame = frame;
     
     // autoresizing mask
-    if (viewElement.top && viewElement.bottom) {
-        view.autoresizingMask |= UIViewAutoresizingFlexibleHeight;
-    } else if (viewElement.top) {
-        view.autoresizingMask |= UIViewAutoresizingFlexibleBottomMargin;
-    } else if (viewElement.bottom) {
-        view.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin;
-    }
-    
-    if (viewElement.left && viewElement.right) {
-        view.autoresizingMask |= UIViewAutoresizingFlexibleWidth;
-    } else if (viewElement.left) {
-        view.autoresizingMask |= UIViewAutoresizingFlexibleRightMargin;
-    } else if (viewElement.right) {
-        view.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin;
+    if (orientation == OSZExpressionOrientationHorizontal) {
+        if (viewElement.left && viewElement.right) {
+            view.autoresizingMask |= UIViewAutoresizingFlexibleWidth;
+        } else if (viewElement.left) {
+            view.autoresizingMask |= UIViewAutoresizingFlexibleRightMargin;
+        } else if (viewElement.right) {
+            view.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin;
+        }
+    } else {
+        if (viewElement.top && viewElement.bottom) {
+            view.autoresizingMask |= UIViewAutoresizingFlexibleHeight;
+        } else if (viewElement.top) {
+            view.autoresizingMask |= UIViewAutoresizingFlexibleBottomMargin;
+        } else if (viewElement.bottom) {
+            view.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin;
+        }
     }
 }
 
