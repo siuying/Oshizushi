@@ -42,7 +42,7 @@ static const int oshiLibLogLevel = LOG_LEVEL_VERBOSE;
 
 -(NSString*) description
 {
-    return [NSString stringWithFormat:@"%@", self.name];
+    return [NSString stringWithFormat:@"%@ (top=%@, left=%@, right=%@, bottom=%@)", self.name, self.top, self.left, self.right, self.bottom];
 }
 
 -(NSArray*) references

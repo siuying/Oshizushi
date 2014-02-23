@@ -124,18 +124,19 @@ describe(@"OSZLayouter", ^{
         
         it(@"should layout |-5-[view]-5-[view2(100)]-5-|", ^{
             UIView* view = [[UIView alloc] initWithFrame:CGRectZero];
-            
+            [superview addSubview:view];
+
             UIView* view2 = [[UIView alloc] initWithFrame:CGRectZero];
             [superview addSubview:view2];
             
             NSDictionary* views = NSDictionaryOfVariableBindings(view, view2);
-            [layouter layoutWithVisualFormat:@"|-5-[view]-5-[view2(100)]-5-|" metrics:nil views:views];
+            [layouter layoutWithVisualFormat:@"|-12-[view]-5-[view2(100)]-12-|" metrics:nil views:views];
             
-            [[theValue(view.frame.origin.x) should] equal:theValue(5)];
-            [[theValue(view.frame.size.width) should] equal:theValue(205)];
+            [[theValue(view.frame.origin.x) should] equal:theValue(12)];
+            [[theValue(view.frame.size.width) should] equal:theValue(191)];
             [[theValue(view.autoresizingMask & UIViewAutoresizingFlexibleWidth) should] equal:theValue(UIViewAutoresizingFlexibleWidth)];
 
-            [[theValue(view2.frame.origin.x) should] equal:theValue(215)];
+            [[theValue(view2.frame.origin.x) should] equal:theValue(208)];
             [[theValue(view2.frame.size.width) should] equal:theValue(100)];
         });
     });
